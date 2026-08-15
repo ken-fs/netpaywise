@@ -1,0 +1,8 @@
+{
+  "_comment": "Texas has no state income tax.",
+  "state": "TX",
+  "name": "Texas",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

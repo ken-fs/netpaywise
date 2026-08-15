@@ -1,0 +1,18 @@
+{
+  "_comment": "Wisconsin progressive income tax. 2024 single brackets (3.5/4.4/5.3/7.65%). WI standard deduction phases out with income; set to 0 here (slightly overstates tax) pending exact modeling. MFJ approx via single. VERIFY vs WI DoR for 2026.",
+  "state": "WI",
+  "name": "Wisconsin",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": { "single": 0, "married_jointly": 0, "married_separately": 0, "head_of_household": 0 },
+  "brackets": {
+    "single": [
+      { "upTo": 14320, "rate": 0.035 },
+      { "upTo": 28640, "rate": 0.044 },
+      { "upTo": 315310, "rate": 0.053 },
+      { "upTo": null, "rate": 0.0765 }
+    ]
+  },
+  "bracketFallback": "single"
+}

@@ -1,0 +1,89 @@
+{
+  "site": "netpaywise.com",
+  "market": "US",
+  "language": "en",
+  "type": "calculator-tool-site",
+  "generatedBy": "seo-cluster (methodology applied to validated dataset; live SERP blocked)",
+  "date": "2026-08-15",
+  "clusters": [
+    {
+      "id": "A",
+      "name": "Paycheck & Take-Home Pay",
+      "role": "core",
+      "color": "#2563eb",
+      "pillar": { "url": "/paycheck-calculator", "title": "US Paycheck & Take-Home Pay Calculator", "primaryKeyword": "paycheck calculator", "template": "hub", "wordCount": 2000 },
+      "spokes": [
+        { "url": "/paycheck-calculator/[state]", "title": "[State] Paycheck Calculator", "primaryKeyword": "paycheck calculator [state]", "programmatic": true, "count": 50, "cpc": "13-20", "kd": "0-18", "template": "state-tool", "wordCount": 700, "priority": "highest" },
+        { "url": "/hourly-paycheck-calculator", "primaryKeyword": "hourly paycheck calculator", "template": "tool", "wordCount": 600 },
+        { "url": "/salary-paycheck-calculator", "primaryKeyword": "salary paycheck calculator", "template": "tool", "wordCount": 600 },
+        { "url": "/salary-to-hourly", "primaryKeyword": "salary to hourly calculator", "template": "tool", "wordCount": 500 },
+        { "url": "/overtime-calculator", "primaryKeyword": "overtime pay calculator", "template": "tool", "wordCount": 500 },
+        { "url": "/bonus-tax-calculator", "primaryKeyword": "bonus tax calculator", "template": "tool", "wordCount": 500 },
+        { "url": "/w4-calculator", "primaryKeyword": "w4 withholding calculator", "template": "tool", "wordCount": 600 }
+      ]
+    },
+    {
+      "id": "B",
+      "name": "Income Tax",
+      "role": "core",
+      "color": "#0d9488",
+      "pillar": { "url": "/income-tax-calculator", "title": "US Income Tax Calculator", "primaryKeyword": "income tax calculator", "template": "hub", "wordCount": 2000 },
+      "spokes": [
+        { "url": "/federal-income-tax-calculator", "primaryKeyword": "federal income tax calculator", "kd": 20, "cpc": 1.73, "template": "tool", "wordCount": 700 },
+        { "url": "/state-income-tax-calculator", "primaryKeyword": "state income tax calculator", "template": "tool", "wordCount": 700 },
+        { "url": "/self-employment-tax-calculator", "primaryKeyword": "1099 tax calculator", "kd": 13, "cpc": 0.84, "template": "tool", "wordCount": 700 },
+        { "url": "/sales-tax-calculator", "primaryKeyword": "sales tax calculator", "template": "tool", "wordCount": 500 },
+        { "url": "/reverse-sales-tax-calculator", "primaryKeyword": "reverse sales tax calculator", "kd": 0, "template": "tool", "wordCount": 500 }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Loans & Mortgage (utility only)",
+      "role": "adjacent",
+      "color": "#c026d3",
+      "pillar": { "url": "/loan-calculator", "title": "Loan & Mortgage Calculator", "primaryKeyword": "loan calculator", "template": "hub", "wordCount": 2000 },
+      "spokes": [
+        { "url": "/mortgage-payoff-calculator", "primaryKeyword": "mortgage payoff calculator", "volume": 60500, "kd": 12, "template": "tool", "wordCount": 800, "note": "traffic magnet" },
+        { "url": "/simple-loan-calculator", "primaryKeyword": "simple loan calculator", "volume": 14800, "kd": 15, "cpc": 5.51, "template": "tool", "wordCount": 600 },
+        { "url": "/amortization-calculator", "primaryKeyword": "loan amortization schedule", "template": "tool", "wordCount": 700 },
+        { "url": "/mortgage-affordability-calculator", "primaryKeyword": "how much house can i afford", "template": "tool", "wordCount": 700 },
+        { "url": "/auto-loan-calculator", "primaryKeyword": "car loan payment calculator", "template": "tool", "wordCount": 500 },
+        { "url": "/debt-payoff-calculator", "primaryKeyword": "debt payoff calculator", "template": "tool", "wordCount": 500, "batch": 2 },
+        { "url": "/savings-calculator", "primaryKeyword": "compound interest calculator", "template": "tool", "wordCount": 500, "batch": 2 }
+      ]
+    }
+  ],
+  "excluded": ["cash-out refinance calculator", "current mortgage rates", "refinance rates"],
+  "linkMatrix": {
+    "rules": [
+      "every spoke <-> its pillar (mandatory bidirectional)",
+      "Pillar A <-> Pillar B (strong cross-link: paycheck & income tax intent overlap)",
+      "funnel to high-CPC: /loan-calculator + /mortgage-affordability-calculator -> /salary-paycheck-calculator + Pillar A",
+      "traffic magnet routing: /mortgage-payoff-calculator -> /mortgage-affordability-calculator -> Pillar A",
+      "state page fan-out (avoid explosion): /paycheck-calculator/[state] -> Pillar A + its state income tax + {CA,TX,NY,FL} + /hourly + /salary",
+      "min 3 incoming internal links per page; no orphans (<=2 clicks from a pillar); keyword-rich anchors"
+    ],
+    "links": [
+      { "from": "/paycheck-calculator", "to": "/income-tax-calculator", "type": "cross-pillar" },
+      { "from": "/income-tax-calculator", "to": "/paycheck-calculator", "type": "cross-pillar" },
+      { "from": "/mortgage-payoff-calculator", "to": "/mortgage-affordability-calculator", "type": "funnel" },
+      { "from": "/mortgage-affordability-calculator", "to": "/salary-paycheck-calculator", "type": "funnel" },
+      { "from": "/loan-calculator", "to": "/paycheck-calculator", "type": "funnel" },
+      { "from": "/paycheck-calculator/[state]", "to": "/paycheck-calculator", "type": "mandatory" },
+      { "from": "/paycheck-calculator/[state]", "to": "/hourly-paycheck-calculator", "type": "sibling" },
+      { "from": "/paycheck-calculator/[state]", "to": "/salary-paycheck-calculator", "type": "sibling" }
+    ]
+  },
+  "firstBatch": {
+    "tier1_foundation_A": ["/paycheck-calculator", "/hourly-paycheck-calculator", "/salary-paycheck-calculator", "/salary-to-hourly", "CA", "TX", "FL", "NY", "VA", "WI", "CT", "GA", "PA", "IL", "OH", "NC"],
+    "tier2_tax_B": ["/income-tax-calculator", "/federal-income-tax-calculator", "/self-employment-tax-calculator", "/sales-tax-calculator", "/reverse-sales-tax-calculator", "/w4-calculator", "/overtime-calculator", "/bonus-tax-calculator"],
+    "tier3_loans_C": ["/loan-calculator", "/mortgage-payoff-calculator", "/simple-loan-calculator", "/amortization-calculator", "/mortgage-affordability-calculator", "/auto-loan-calculator"],
+    "batch2_rollout": ["remaining 38 state paycheck pages", "/debt-payoff-calculator", "/savings-calculator", "deep state-income-tax pages"]
+  },
+  "schema": {
+    "pillar": ["ItemList", "BreadcrumbList", "FAQPage"],
+    "tool": ["WebApplication", "FAQPage", "BreadcrumbList"],
+    "state": ["WebApplication", "FAQPage", "BreadcrumbList"]
+  },
+  "meta": { "totalClusters": 3, "totalToolPages": 19, "programmaticStatePages": 50, "firstBatchPages": 30 }
+}

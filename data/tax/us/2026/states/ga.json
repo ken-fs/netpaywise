@@ -1,0 +1,10 @@
+{
+  "_comment": "Georgia moved to a flat income tax (phasing down from 5.39%). Rate + standard deduction are 2024/2025 best-effort. VERIFY vs GA DoR for 2026 — rate changes yearly.",
+  "state": "GA",
+  "name": "Georgia",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.0539,
+  "standardDeduction": { "single": 12000, "married_jointly": 24000, "married_separately": 12000, "head_of_household": 12000 }
+}

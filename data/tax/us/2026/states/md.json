@@ -1,0 +1,51 @@
+{
+  "_comment": "Maryland progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026. Plus county income taxes ~2.25–3.2% (not included).",
+  "state": "MD",
+  "name": "Maryland",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 2700,
+    "married_jointly": 5400,
+    "married_separately": 2700,
+    "head_of_household": 2700
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 1000,
+        "rate": 0.02
+      },
+      {
+        "upTo": 2000,
+        "rate": 0.03
+      },
+      {
+        "upTo": 3000,
+        "rate": 0.04
+      },
+      {
+        "upTo": 100000,
+        "rate": 0.0475
+      },
+      {
+        "upTo": 125000,
+        "rate": 0.05
+      },
+      {
+        "upTo": 150000,
+        "rate": 0.0525
+      },
+      {
+        "upTo": 250000,
+        "rate": 0.055
+      },
+      {
+        "upTo": null,
+        "rate": 0.0575
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

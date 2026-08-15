@@ -1,0 +1,10 @@
+{
+  "_comment": "North Carolina flat income tax. 2025 rate ~4.25% (phasing down), standard deduction 2024 values. VERIFY vs NC DoR for 2026.",
+  "state": "NC",
+  "name": "North Carolina",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.0425,
+  "standardDeduction": { "single": 12750, "married_jointly": 25500, "married_separately": 12750, "head_of_household": 19125 }
+}

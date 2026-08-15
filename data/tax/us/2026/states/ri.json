@@ -1,0 +1,31 @@
+{
+  "_comment": "Rhode Island progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "RI",
+  "name": "Rhode Island",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 10550,
+    "married_jointly": 21100,
+    "married_separately": 10550,
+    "head_of_household": 10550
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 77450,
+        "rate": 0.0375
+      },
+      {
+        "upTo": 176050,
+        "rate": 0.0475
+      },
+      {
+        "upTo": null,
+        "rate": 0.0599
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

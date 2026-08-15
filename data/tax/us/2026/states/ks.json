@@ -1,0 +1,27 @@
+{
+  "_comment": "Kansas progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "KS",
+  "name": "Kansas",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 3605,
+    "married_jointly": 7210,
+    "married_separately": 3605,
+    "head_of_household": 3605
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 23000,
+        "rate": 0.052
+      },
+      {
+        "upTo": null,
+        "rate": 0.0558
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

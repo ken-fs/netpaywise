@@ -1,0 +1,43 @@
+{
+  "_comment": "Delaware progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026. Wilmington adds a local wage tax (not included).",
+  "state": "DE",
+  "name": "Delaware",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 3250,
+    "married_jointly": 6500,
+    "married_separately": 3250,
+    "head_of_household": 3250
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 5000,
+        "rate": 0.022
+      },
+      {
+        "upTo": 10000,
+        "rate": 0.039
+      },
+      {
+        "upTo": 20000,
+        "rate": 0.048
+      },
+      {
+        "upTo": 25000,
+        "rate": 0.052
+      },
+      {
+        "upTo": 60000,
+        "rate": 0.0555
+      },
+      {
+        "upTo": null,
+        "rate": 0.066
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

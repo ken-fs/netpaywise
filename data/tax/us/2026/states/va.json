@@ -1,0 +1,18 @@
+{
+  "_comment": "Virginia state income tax. 2025 baseline values, VERIFY for 2026. VA is our highest-CPC flagship state.",
+  "state": "VA",
+  "name": "Virginia",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": { "single": 8500, "married_jointly": 17000, "married_separately": 8500, "head_of_household": 8500 },
+  "brackets": {
+    "single": [
+      { "upTo": 3000, "rate": 0.02 },
+      { "upTo": 5000, "rate": 0.03 },
+      { "upTo": 17000, "rate": 0.05 },
+      { "upTo": null, "rate": 0.0575 }
+    ]
+  },
+  "bracketFallback": "single"
+}

@@ -1,0 +1,10 @@
+{
+  "_comment": "Pennsylvania flat income tax 3.07%, no standard deduction (taxes gross compensation). VERIFY vs PA DoR for 2026.",
+  "state": "PA",
+  "name": "Pennsylvania",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.0307,
+  "standardDeduction": { "single": 0, "married_jointly": 0, "married_separately": 0, "head_of_household": 0 }
+}

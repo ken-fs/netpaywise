@@ -1,0 +1,67 @@
+{
+  "_comment": "Hawaii progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "HI",
+  "name": "Hawaii",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 4400,
+    "married_jointly": 8800,
+    "married_separately": 4400,
+    "head_of_household": 4400
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 2400,
+        "rate": 0.014
+      },
+      {
+        "upTo": 4800,
+        "rate": 0.032
+      },
+      {
+        "upTo": 9600,
+        "rate": 0.055
+      },
+      {
+        "upTo": 14400,
+        "rate": 0.064
+      },
+      {
+        "upTo": 19200,
+        "rate": 0.068
+      },
+      {
+        "upTo": 24000,
+        "rate": 0.072
+      },
+      {
+        "upTo": 36000,
+        "rate": 0.076
+      },
+      {
+        "upTo": 48000,
+        "rate": 0.079
+      },
+      {
+        "upTo": 150000,
+        "rate": 0.0825
+      },
+      {
+        "upTo": 175000,
+        "rate": 0.09
+      },
+      {
+        "upTo": 200000,
+        "rate": 0.1
+      },
+      {
+        "upTo": null,
+        "rate": 0.11
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

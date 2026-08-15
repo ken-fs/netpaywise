@@ -1,0 +1,35 @@
+{
+  "_comment": "Nebraska progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "NE",
+  "name": "Nebraska",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 7900,
+    "married_jointly": 15800,
+    "married_separately": 7900,
+    "head_of_household": 7900
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 3700,
+        "rate": 0.0246
+      },
+      {
+        "upTo": 22170,
+        "rate": 0.0351
+      },
+      {
+        "upTo": 35730,
+        "rate": 0.0501
+      },
+      {
+        "upTo": null,
+        "rate": 0.0584
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

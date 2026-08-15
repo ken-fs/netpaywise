@@ -1,0 +1,43 @@
+{
+  "_comment": "Oklahoma progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "OK",
+  "name": "Oklahoma",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 6350,
+    "married_jointly": 12700,
+    "married_separately": 6350,
+    "head_of_household": 6350
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 1000,
+        "rate": 0.0025
+      },
+      {
+        "upTo": 2500,
+        "rate": 0.0075
+      },
+      {
+        "upTo": 3750,
+        "rate": 0.0175
+      },
+      {
+        "upTo": 4900,
+        "rate": 0.0275
+      },
+      {
+        "upTo": 7200,
+        "rate": 0.0375
+      },
+      {
+        "upTo": null,
+        "rate": 0.0475
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

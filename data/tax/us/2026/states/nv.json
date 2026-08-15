@@ -1,0 +1,8 @@
+{
+  "_comment": "Nevada has no state income tax on wages.",
+  "state": "NV",
+  "name": "Nevada",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

@@ -1,0 +1,47 @@
+{
+  "_comment": "New Jersey progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "NJ",
+  "name": "New Jersey",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 0,
+    "married_jointly": 0,
+    "married_separately": 0,
+    "head_of_household": 0
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 20000,
+        "rate": 0.014
+      },
+      {
+        "upTo": 35000,
+        "rate": 0.0175
+      },
+      {
+        "upTo": 40000,
+        "rate": 0.035
+      },
+      {
+        "upTo": 75000,
+        "rate": 0.05525
+      },
+      {
+        "upTo": 500000,
+        "rate": 0.0637
+      },
+      {
+        "upTo": 1000000,
+        "rate": 0.0897
+      },
+      {
+        "upTo": null,
+        "rate": 0.1075
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

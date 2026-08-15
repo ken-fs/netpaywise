@@ -1,0 +1,8 @@
+{
+  "_comment": "Florida has no state income tax on wages.",
+  "state": "FL",
+  "name": "Florida",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

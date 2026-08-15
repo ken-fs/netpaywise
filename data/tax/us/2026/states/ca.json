@@ -1,0 +1,34 @@
+{
+  "_comment": "California state income tax. 2025 baseline values, VERIFY for 2026.",
+  "state": "CA",
+  "name": "California",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": { "single": 5540, "married_jointly": 11080, "married_separately": 5540, "head_of_household": 11080 },
+  "brackets": {
+    "single": [
+      { "upTo": 10756, "rate": 0.01 },
+      { "upTo": 25499, "rate": 0.02 },
+      { "upTo": 40245, "rate": 0.04 },
+      { "upTo": 55866, "rate": 0.06 },
+      { "upTo": 70606, "rate": 0.08 },
+      { "upTo": 360659, "rate": 0.093 },
+      { "upTo": 432787, "rate": 0.103 },
+      { "upTo": 721314, "rate": 0.113 },
+      { "upTo": null, "rate": 0.123 }
+    ],
+    "married_jointly": [
+      { "upTo": 21512, "rate": 0.01 },
+      { "upTo": 50998, "rate": 0.02 },
+      { "upTo": 80490, "rate": 0.04 },
+      { "upTo": 111732, "rate": 0.06 },
+      { "upTo": 141212, "rate": 0.08 },
+      { "upTo": 721318, "rate": 0.093 },
+      { "upTo": 865574, "rate": 0.103 },
+      { "upTo": 1442628, "rate": 0.113 },
+      { "upTo": null, "rate": 0.123 }
+    ]
+  },
+  "bracketFallback": "single"
+}

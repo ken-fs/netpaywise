@@ -1,0 +1,39 @@
+{
+  "_comment": "New Mexico progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "NM",
+  "name": "New Mexico",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 14600,
+    "married_jointly": 29200,
+    "married_separately": 14600,
+    "head_of_household": 14600
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 5500,
+        "rate": 0.017
+      },
+      {
+        "upTo": 11000,
+        "rate": 0.032
+      },
+      {
+        "upTo": 16000,
+        "rate": 0.047
+      },
+      {
+        "upTo": 210000,
+        "rate": 0.049
+      },
+      {
+        "upTo": null,
+        "rate": 0.059
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

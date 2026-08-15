@@ -1,0 +1,15 @@
+{
+  "_comment": "Iowa flat income tax — best-effort 2024/2025. VERIFY vs state DoR for 2026. Iowa moved to a flat 3.8% for 2025.",
+  "state": "IA",
+  "name": "Iowa",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.038,
+  "standardDeduction": {
+    "single": 0,
+    "married_jointly": 0,
+    "married_separately": 0,
+    "head_of_household": 0
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "_comment": "Wyoming has no state income tax on wages.",
+  "state": "WY",
+  "name": "Wyoming",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

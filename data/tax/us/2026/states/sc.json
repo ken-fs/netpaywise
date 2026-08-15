@@ -1,0 +1,31 @@
+{
+  "_comment": "South Carolina progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "SC",
+  "name": "South Carolina",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 14600,
+    "married_jointly": 29200,
+    "married_separately": 14600,
+    "head_of_household": 14600
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 3460,
+        "rate": 0
+      },
+      {
+        "upTo": 17330,
+        "rate": 0.03
+      },
+      {
+        "upTo": null,
+        "rate": 0.064
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

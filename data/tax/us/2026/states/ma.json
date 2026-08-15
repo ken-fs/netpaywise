@@ -1,0 +1,27 @@
+{
+  "_comment": "Massachusetts progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026. Flat 5% plus a 4% surtax over $1M.",
+  "state": "MA",
+  "name": "Massachusetts",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 0,
+    "married_jointly": 0,
+    "married_separately": 0,
+    "head_of_household": 0
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 1000000,
+        "rate": 0.05
+      },
+      {
+        "upTo": null,
+        "rate": 0.09
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

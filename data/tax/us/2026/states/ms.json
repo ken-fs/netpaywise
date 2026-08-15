@@ -1,0 +1,15 @@
+{
+  "_comment": "Mississippi flat income tax — best-effort 2024/2025. VERIFY vs state DoR for 2026. Applies to taxable income over ~$10,000.",
+  "state": "MS",
+  "name": "Mississippi",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.044,
+  "standardDeduction": {
+    "single": 0,
+    "married_jointly": 0,
+    "married_separately": 0,
+    "head_of_household": 0
+  }
+}

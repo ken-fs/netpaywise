@@ -1,0 +1,39 @@
+{
+  "_comment": "West Virginia progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "WV",
+  "name": "West Virginia",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 0,
+    "married_jointly": 0,
+    "married_separately": 0,
+    "head_of_household": 0
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 10000,
+        "rate": 0.0236
+      },
+      {
+        "upTo": 25000,
+        "rate": 0.0315
+      },
+      {
+        "upTo": 40000,
+        "rate": 0.0354
+      },
+      {
+        "upTo": 60000,
+        "rate": 0.0472
+      },
+      {
+        "upTo": null,
+        "rate": 0.0512
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

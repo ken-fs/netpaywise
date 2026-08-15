@@ -1,0 +1,15 @@
+{
+  "_comment": "Idaho flat income tax — best-effort 2024/2025. VERIFY vs state DoR for 2026.",
+  "state": "ID",
+  "name": "Idaho",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.05695,
+  "standardDeduction": {
+    "single": 14600,
+    "married_jointly": 29200,
+    "married_separately": 14600,
+    "head_of_household": 14600
+  }
+}

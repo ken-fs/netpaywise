@@ -1,0 +1,21 @@
+{
+  "_comment": "Connecticut progressive income tax. 2024 single brackets. CT uses a personal exemption + phase-outs rather than a standard deduction; set to 0 here (overstates tax at low incomes) pending exact modeling. MFJ approx via single. VERIFY vs CT DRS for 2026.",
+  "state": "CT",
+  "name": "Connecticut",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": { "single": 0, "married_jointly": 0, "married_separately": 0, "head_of_household": 0 },
+  "brackets": {
+    "single": [
+      { "upTo": 10000, "rate": 0.02 },
+      { "upTo": 50000, "rate": 0.045 },
+      { "upTo": 100000, "rate": 0.055 },
+      { "upTo": 200000, "rate": 0.06 },
+      { "upTo": 250000, "rate": 0.065 },
+      { "upTo": 500000, "rate": 0.069 },
+      { "upTo": null, "rate": 0.0699 }
+    ]
+  },
+  "bracketFallback": "single"
+}

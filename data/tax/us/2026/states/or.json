@@ -1,0 +1,35 @@
+{
+  "_comment": "Oregon progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026. Excludes local transit taxes.",
+  "state": "OR",
+  "name": "Oregon",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 2745,
+    "married_jointly": 5490,
+    "married_separately": 2745,
+    "head_of_household": 2745
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 4300,
+        "rate": 0.0475
+      },
+      {
+        "upTo": 10750,
+        "rate": 0.0675
+      },
+      {
+        "upTo": 125000,
+        "rate": 0.0875
+      },
+      {
+        "upTo": null,
+        "rate": 0.099
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

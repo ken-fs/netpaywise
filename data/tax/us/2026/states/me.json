@@ -1,0 +1,31 @@
+{
+  "_comment": "Maine progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "ME",
+  "name": "Maine",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 14600,
+    "married_jointly": 29200,
+    "married_separately": 14600,
+    "head_of_household": 14600
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 26050,
+        "rate": 0.058
+      },
+      {
+        "upTo": 61600,
+        "rate": 0.0675
+      },
+      {
+        "upTo": null,
+        "rate": 0.0715
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

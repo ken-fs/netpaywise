@@ -1,0 +1,10 @@
+{
+  "_comment": "Illinois flat income tax. 2024/2025 baseline (rate 4.95%, personal exemption approx). VERIFY vs IL DoR for 2026.",
+  "state": "IL",
+  "name": "Illinois",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.0495,
+  "standardDeduction": { "single": 2775, "married_jointly": 5550, "married_separately": 2775, "head_of_household": 2775 }
+}

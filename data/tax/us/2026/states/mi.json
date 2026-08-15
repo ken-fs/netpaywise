@@ -1,0 +1,15 @@
+{
+  "_comment": "Michigan flat income tax — best-effort 2024/2025. VERIFY vs state DoR for 2026. Plus some city income taxes (not included).",
+  "state": "MI",
+  "name": "Michigan",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.0425,
+  "standardDeduction": {
+    "single": 0,
+    "married_jointly": 0,
+    "married_separately": 0,
+    "head_of_household": 0
+  }
+}

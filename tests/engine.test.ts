@@ -1,0 +1,184 @@
+/**
+ * Engine correctness tests. Run: pnpm test  (tsx tests/engine.test.ts)
+ * Verifies loan math and tax logic against hand-computed known values.
+ */
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+
+import { monthlyPayment, computeLoan, comparePayoff, maxLoanFromPayment, affordability } from "../src/lib/engine/loan";
+import {
+  taxFromBrackets,
+  fica,
+  stateIncomeTax,
+  computePaycheck,
+  computeIncomeTax,
+  selfEmploymentTax,
+  salesTax,
+  reverseSalesTax,
+  overtimePay,
+  bonusAfterTax,
+  withholdingCheck,
+  hourlyToAnnual,
+  annualToHourly,
+} from "../src/lib/engine/tax";
+import type { FederalConfig, StateConfig } from "../src/lib/engine/types";
+
+const here = dirname(fileURLToPath(import.meta.url));
+const load = (p: string) => JSON.parse(readFileSync(resolve(here, "..", p), "utf8"));
+const federal = load("data/tax/us/2026/federal.json") as FederalConfig;
+const ca = load("data/tax/us/2026/states/ca.json") as StateConfig;
+const tx = load("data/tax/us/2026/states/tx.json") as StateConfig;
+const va = load("data/tax/us/2026/states/va.json") as StateConfig;
+
+let passed = 0;
+function check(name: string, fn: () => void) {
+  fn();
+  passed += 1;
+  console.log(`  ok  ${name}`);
+}
+const near = (a: number, b: number, tol = 0.02) =>
+  assert.ok(Math.abs(a - b) <= tol, `expected ${a} ≈ ${b} (±${tol})`);
+
+console.log("LOAN");
+check("30yr $200k @6% monthly payment ≈ 1199.10", () => {
+  near(monthlyPayment(200000, 6, 360), 1199.1, 0.5);
+});
+check("zero-interest loan splits evenly", () => {
+  assert.equal(monthlyPayment(1200, 0, 12), 100);
+});
+check("amortization pays down to ~0 near term (cent-rounding may add 1 small payment)", () => {
+  const r = computeLoan(200000, 6, 360);
+  assert.ok(r.schedule.length >= 360 && r.schedule.length <= 362);
+  near(r.schedule[r.schedule.length - 1].balance, 0, 0.05);
+  assert.ok(r.totalInterest > 0);
+});
+check("extra payment saves time and interest", () => {
+  const c = comparePayoff(200000, 6, 360, 200);
+  assert.ok(c.monthsSaved > 0);
+  assert.ok(c.interestSaved > 0);
+});
+
+console.log("TAX");
+check("progressive brackets: single taxable $50k = $5914", () => {
+  near(taxFromBrackets(50000, federal.brackets.single), 5914, 0.01);
+});
+check("no tax on zero/negative taxable income", () => {
+  assert.equal(taxFromBrackets(0, federal.brackets.single), 0);
+  assert.equal(taxFromBrackets(-100, federal.brackets.single), 0);
+});
+check("FICA on $100k single = SS 6200 + Medicare 1450", () => {
+  const f = fica(100000, "single", federal);
+  near(f.socialSecurity, 6200);
+  near(f.medicare, 1450);
+  near(f.total, 7650);
+});
+check("SS caps at wage base", () => {
+  const f = fica(300000, "single", federal);
+  near(f.socialSecurity, federal.fica.socialSecurity.wageBase * 0.062);
+});
+check("additional Medicare over $200k (single)", () => {
+  const f = fica(250000, "single", federal);
+  // 250000*0.0145 + (250000-200000)*0.009
+  near(f.medicare, 250000 * 0.0145 + 50000 * 0.009);
+});
+check("Texas has no state income tax", () => {
+  assert.equal(stateIncomeTax(80000, "single", 0, tx), 0);
+});
+check("CA + VA progressive state tax > 0 for $80k", () => {
+  assert.ok(stateIncomeTax(80000, "single", 0, ca) > 0);
+  assert.ok(stateIncomeTax(80000, "single", 0, va) > 0);
+});
+
+console.log("PAYCHECK");
+check("take-home < gross and breakdown sums to total tax", () => {
+  const r = computePaycheck(
+    { grossAnnual: 80000, payFrequency: "biweekly", filingStatus: "single" },
+    federal,
+    va,
+  );
+  assert.ok(r.takeHomeAnnual < r.grossAnnual && r.takeHomeAnnual > 0);
+  near(
+    r.federalIncomeTax + r.stateIncomeTax + r.socialSecurity + r.medicare,
+    r.totalTax,
+  );
+  near(r.takeHomePerPeriod, r.takeHomeAnnual / 26, 0.02);
+  assert.ok(r.effectiveTaxRate > 0 && r.effectiveTaxRate < 50);
+});
+check("pre-tax 401k lowers taxable income and total tax", () => {
+  const base = computePaycheck(
+    { grossAnnual: 80000, payFrequency: "annual", filingStatus: "single" },
+    federal,
+    tx,
+  );
+  const with401k = computePaycheck(
+    { grossAnnual: 80000, payFrequency: "annual", filingStatus: "single", preTaxDeductions: 10000 },
+    federal,
+    tx,
+  );
+  assert.ok(with401k.federalIncomeTax < base.federalIncomeTax);
+});
+
+console.log("INCOME TAX / 1099 / SALES TAX");
+check("income tax = federal + state, no FICA", () => {
+  const r = computeIncomeTax(80000, "single", 0, federal, va);
+  near(r.federal, taxFromBrackets(80000 - 15000, federal.brackets.single));
+  near(r.total, r.federal + r.state);
+  assert.ok(r.afterTax < 80000 && r.effectiveRate > 0);
+});
+check("self-employment tax on $100k net ≈ $14,130", () => {
+  const r = selfEmploymentTax(100000, federal);
+  // base 92,350; SS 92,350*.124=11,451.40; Medicare 92,350*.029=2,678.15; total 14,129.55
+  near(r.seTaxableBase, 92350, 0.5);
+  near(r.seTax, 14129.55, 0.5);
+  near(r.deductibleHalf, r.seTax / 2, 0.01);
+  near(r.quarterly, r.seTax / 4, 0.01);
+});
+check("sales tax forward + reverse round-trip", () => {
+  const f = salesTax(100, 8.25);
+  near(f.tax, 8.25);
+  near(f.total, 108.25);
+  const rev = reverseSalesTax(108.25, 8.25);
+  near(rev.preTax, 100, 0.02);
+  near(rev.tax, 8.25, 0.02);
+});
+
+console.log("OVERTIME / BONUS / W-4 / AFFORDABILITY");
+check("overtime: 40h + 10h @1.5x on $20/hr = $1100/wk", () => {
+  const r = overtimePay(20, 40, 10, 1.5);
+  near(r.regularPay, 800);
+  near(r.overtimePay, 300);
+  near(r.total, 1100);
+});
+check("bonus $10k: 22% fed + FICA net", () => {
+  const r = bonusAfterTax(10000, federal);
+  near(r.federal, 2200);
+  near(r.socialSecurity, 620);
+  near(r.medicare, 145);
+  near(r.net, 10000 - r.totalWithheld);
+});
+check("withholding: under-withholding suggests extra", () => {
+  const r = withholdingCheck(80000, "single", 300, 26, federal);
+  assert.ok(r.estimatedAnnualTax > 0);
+  if (r.difference < 0) assert.ok(r.suggestedExtraPerPaycheck > 0);
+  near(r.annualWithheld, 300 * 26);
+});
+check("maxLoanFromPayment inverts monthlyPayment", () => {
+  const pay = monthlyPayment(200000, 6, 360);
+  near(maxLoanFromPayment(pay, 6, 360), 200000, 5);
+});
+check("affordability returns sane price >= down payment", () => {
+  const a = affordability(120000, 500, 40000, 6.5, 30);
+  assert.ok(a.maxMonthlyPayment > 0);
+  assert.ok(a.maxHomePrice >= 40000);
+  assert.ok(a.maxLoan > 0);
+});
+
+console.log("SALARY/HOURLY");
+check("hourly↔annual round-trip", () => {
+  assert.equal(hourlyToAnnual(25), 52000);
+  assert.equal(annualToHourly(52000), 25);
+});
+
+console.log(`\n${passed} checks passed.`);

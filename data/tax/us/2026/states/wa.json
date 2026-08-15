@@ -1,0 +1,8 @@
+{
+  "_comment": "Washington has no state income tax on wages.",
+  "state": "WA",
+  "name": "Washington",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

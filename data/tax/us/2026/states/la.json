@@ -1,0 +1,15 @@
+{
+  "_comment": "Louisiana flat income tax — best-effort 2024/2025. VERIFY vs state DoR for 2026. Louisiana enacted a flat 3% effective 2025.",
+  "state": "LA",
+  "name": "Louisiana",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.03,
+  "standardDeduction": {
+    "single": 12500,
+    "married_jointly": 25000,
+    "married_separately": 12500,
+    "head_of_household": 12500
+  }
+}

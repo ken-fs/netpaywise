@@ -1,0 +1,17 @@
+{
+  "_comment": "Ohio progressive income tax. 2024 baseline: 0% under ~$26,050, 2.75% to $100k, 3.5% above. No separate standard deduction in this structure. MFJ uses same brackets (approx). VERIFY vs OH DoT for 2026.",
+  "state": "OH",
+  "name": "Ohio",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": { "single": 0, "married_jointly": 0, "married_separately": 0, "head_of_household": 0 },
+  "brackets": {
+    "single": [
+      { "upTo": 26050, "rate": 0 },
+      { "upTo": 100000, "rate": 0.0275 },
+      { "upTo": null, "rate": 0.035 }
+    ]
+  },
+  "bracketFallback": "single"
+}

@@ -1,0 +1,31 @@
+{
+  "_comment": "Alabama progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026. Plus local occupational taxes in some cities.",
+  "state": "AL",
+  "name": "Alabama",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 3000,
+    "married_jointly": 6000,
+    "married_separately": 3000,
+    "head_of_household": 3000
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 500,
+        "rate": 0.02
+      },
+      {
+        "upTo": 3000,
+        "rate": 0.04
+      },
+      {
+        "upTo": null,
+        "rate": 0.05
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

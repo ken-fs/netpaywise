@@ -1,0 +1,15 @@
+{
+  "_comment": "Utah flat income tax — best-effort 2024/2025. VERIFY vs state DoR for 2026. Utah uses a taxpayer credit rather than a standard deduction.",
+  "state": "UT",
+  "name": "Utah",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "flat",
+  "rate": 0.0455,
+  "standardDeduction": {
+    "single": 0,
+    "married_jointly": 0,
+    "married_separately": 0,
+    "head_of_household": 0
+  }
+}

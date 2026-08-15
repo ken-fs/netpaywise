@@ -1,0 +1,51 @@
+{
+  "_comment": "Missouri progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "MO",
+  "name": "Missouri",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 14600,
+    "married_jointly": 29200,
+    "married_separately": 14600,
+    "head_of_household": 14600
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 1273,
+        "rate": 0
+      },
+      {
+        "upTo": 2546,
+        "rate": 0.02
+      },
+      {
+        "upTo": 3819,
+        "rate": 0.025
+      },
+      {
+        "upTo": 5092,
+        "rate": 0.03
+      },
+      {
+        "upTo": 6365,
+        "rate": 0.035
+      },
+      {
+        "upTo": 7638,
+        "rate": 0.04
+      },
+      {
+        "upTo": 8911,
+        "rate": 0.045
+      },
+      {
+        "upTo": null,
+        "rate": 0.048
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

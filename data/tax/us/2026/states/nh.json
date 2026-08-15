@@ -1,0 +1,8 @@
+{
+  "_comment": "New Hampshire has no state income tax on wages.",
+  "state": "NH",
+  "name": "New Hampshire",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

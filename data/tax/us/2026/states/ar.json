@@ -1,0 +1,31 @@
+{
+  "_comment": "Arkansas progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "AR",
+  "name": "Arkansas",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 2340,
+    "married_jointly": 4680,
+    "married_separately": 2340,
+    "head_of_household": 2340
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 4400,
+        "rate": 0.02
+      },
+      {
+        "upTo": 8800,
+        "rate": 0.04
+      },
+      {
+        "upTo": null,
+        "rate": 0.044
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

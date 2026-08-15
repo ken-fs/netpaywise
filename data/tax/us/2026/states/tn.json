@@ -1,0 +1,8 @@
+{
+  "_comment": "Tennessee has no state income tax on wages.",
+  "state": "TN",
+  "name": "Tennessee",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

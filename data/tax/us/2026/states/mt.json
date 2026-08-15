@@ -1,0 +1,27 @@
+{
+  "_comment": "Montana progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "MT",
+  "name": "Montana",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 14600,
+    "married_jointly": 29200,
+    "married_separately": 14600,
+    "head_of_household": 14600
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 20500,
+        "rate": 0.047
+      },
+      {
+        "upTo": null,
+        "rate": 0.059
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}

@@ -1,0 +1,8 @@
+{
+  "_comment": "South Dakota has no state income tax on wages.",
+  "state": "SD",
+  "name": "South Dakota",
+  "taxYear": 2026,
+  "verified": true,
+  "type": "none"
+}

@@ -1,0 +1,35 @@
+{
+  "_comment": "Minnesota progressive income tax — best-effort 2024 single-filer brackets. MFJ approximated via single. VERIFY vs state DoR for 2026.",
+  "state": "MN",
+  "name": "Minnesota",
+  "taxYear": 2026,
+  "verified": false,
+  "type": "progressive",
+  "standardDeduction": {
+    "single": 14575,
+    "married_jointly": 29150,
+    "married_separately": 14575,
+    "head_of_household": 14575
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 31690,
+        "rate": 0.0535
+      },
+      {
+        "upTo": 104090,
+        "rate": 0.068
+      },
+      {
+        "upTo": 193240,
+        "rate": 0.0785
+      },
+      {
+        "upTo": null,
+        "rate": 0.0985
+      }
+    ]
+  },
+  "bracketFallback": "single"
+}
