@@ -1,0 +1,16 @@
+# Cloudflare Pages headers. Applied to the static export in out/.
+
+# Hashed build assets never change — cache hard.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts
+/_next/static/media/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Sensible defaults for every page.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: browser=(), geolocation=()
