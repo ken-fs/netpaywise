@@ -4,5 +4,12 @@
   "name": "Alaska",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "Alaska has no state income tax and no statewide sales tax (some towns add their own).",
+    "Alaska is one of the few states where employees pay into state unemployment insurance, so a small amount is withheld from each check.",
+    "The Permanent Fund Dividend isn't taxed by Alaska, but it does count as income on your federal return."
+  ],
+  "notIncluded": "This estimate leaves out Alaska's employee unemployment insurance contribution, which is a small slice of each check.",
+  "verifiedOn": "2026-10-09"
 }

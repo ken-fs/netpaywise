@@ -4,5 +4,10 @@
   "name": "Tennessee",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "Tennessee has no tax on wages. It used to tax interest and dividends (the Hall tax), but that was fully repealed starting with 2021.",
+    "Sales tax is where Tennessee collects instead: combined state and local rates are some of the highest in the US."
+  ],
+  "verifiedOn": "2026-10-09"
 }

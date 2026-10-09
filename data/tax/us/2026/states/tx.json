@@ -4,5 +4,10 @@
   "name": "Texas",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "Texas has no personal income tax, and a 2019 amendment to the Texas Constitution bars lawmakers from adding one without a statewide vote.",
+    "The state makes up the money elsewhere: property taxes in Texas are among the highest in the country, so a bigger paycheck doesn't always mean a cheaper life."
+  ],
+  "verifiedOn": "2026-10-09"
 }

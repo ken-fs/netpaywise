@@ -4,5 +4,10 @@
   "name": "Nevada",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "Nevada has no personal income tax. Businesses pay a payroll tax (the Modified Business Tax), but it's on the employer, not withheld from you.",
+    "Gaming and sales taxes fund most of the state budget."
+  ],
+  "verifiedOn": "2026-10-09"
 }

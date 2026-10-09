@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { computePaycheck } from "@/lib/engine/tax";
+import { statesWithData } from "@/lib/data";
 import type { FederalConfig, StateConfig } from "@/lib/engine/types";
 
 const load = (p: string) =>
@@ -10,11 +11,9 @@ const usd = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 const TOOLS = [
-  { href: "/paycheck-calculator/", name: "Paycheck calculator", sub: "Your take-home pay, by state", feature: true },
-  { href: "/income-tax-calculator/", name: "Income tax", sub: "Federal + state, this year" },
-  { href: "/loan-calculator/", name: "Loan calculator", sub: "Monthly payment and real interest" },
-  { href: "/mortgage-payoff-calculator/", name: "Mortgage payoff", sub: "What one extra payment saves" },
-  { href: "/self-employment-tax-calculator/", name: "1099 self-employed", sub: "Estimate what you owe quarterly" },
+  { href: "/paycheck-calculator/", name: "Paycheck calculator", sub: "Your take-home pay after federal tax and FICA", feature: true },
+  { href: "/1099-tax-calculator/", name: "1099 tax calculator", sub: "Self-employment + income tax, per quarter" },
+  { href: "/bonus-tax-calculator/", name: "Bonus tax", sub: "What's left after the 22% withholding" },
   { href: "/salary-to-hourly/", name: "Salary and hourly", sub: "Convert either direction" },
 ];
 
@@ -26,12 +25,13 @@ const Arrow = () => (
 
 export default function Home() {
   const federal = load("data/tax/us/2026/federal.json") as FederalConfig;
-  const va = load("data/tax/us/2026/states/va.json") as StateConfig;
+  const tx = load("data/tax/us/2026/states/tx.json") as StateConfig;
+  const states = statesWithData();
 
   const ex = computePaycheck(
     { grossAnnual: 65000, payFrequency: "biweekly", filingStatus: "single" },
     federal,
-    va,
+    tx,
   );
   const g = ex.grossAnnual;
   const w = (n: number) => `${(n / g) * 100}%`;
@@ -45,20 +45,20 @@ export default function Home() {
             See what <span className="mark">actually</span> hits your bank account.
           </h1>
           <p className="lede">
-            Type your salary. Watch it split into federal, state, and FICA — and the part
-            you keep. No signup. No email. Just the math.
+            Type your salary. Watch it split into federal tax and FICA — and the part you
+            keep. No signup. No email. Just the math.
           </p>
           <div className="hero-cta">
             <a className="btn" href="/paycheck-calculator/">Calculate my take-home <Arrow /></a>
-            <a className="btn ghost" href="/loan-calculator/">Run a loan</a>
+            <a className="btn ghost" href="/1099-tax-calculator/">I&apos;m self-employed</a>
           </div>
         </div>
 
         {/* Signature: a real pay stub. The split bar tears open on load. */}
-        <aside className="stub hero-stub" aria-label="Example pay stub: $65,000 salary, single, Virginia">
+        <aside className="stub hero-stub" aria-label="Example pay stub: $65,000 salary, single, Texas">
           <div className="stub-head">
             <span>PAY STUB · EXAMPLE</span>
-            <span>$65,000 · single · VA</span>
+            <span>$65,000 · single · TX</span>
           </div>
           <div className="split" role="img" aria-label="Gross pay split into take-home and taxes">
             <span className="s-take" style={{ width: w(ex.takeHomeAnnual) }} />
@@ -76,8 +76,8 @@ export default function Home() {
               <dd>−{usd(ex.federalIncomeTax)}</dd>
             </div>
             <div className="line">
-              <dt><span className="tick" style={{ background: "var(--clay)" }} />Virginia tax</dt>
-              <dd>−{usd(ex.stateIncomeTax)}</dd>
+              <dt><span className="tick" style={{ background: "var(--clay)" }} />Texas tax</dt>
+              <dd>{usd(ex.stateIncomeTax)}</dd>
             </div>
             <div className="line">
               <dt><span className="tick" style={{ background: "var(--fica)" }} />FICA</dt>
@@ -104,9 +104,23 @@ export default function Home() {
             </a>
           ))}
         </div>
+      </section>
+
+      <section className="wrap tools">
+        <h2>States with no income tax</h2>
+        <div className="ledger">
+          {states.map((s) => (
+            <a className="ledger-row" key={s.abbr} href={`/paycheck-calculator/${s.abbr.toLowerCase()}/`}>
+              <div className="lr-main">
+                <span className="lr-name">{s.name} paycheck calculator</span>
+              </div>
+              <Arrow />
+            </a>
+          ))}
+        </div>
         <p className="disclaimer">
-          Estimates for the {federal.taxYear} tax year, standard deduction, no credits. Not
-          tax or financial advice. Figures pending final IRS and state confirmation.
+          Estimates for the {federal.taxYear} tax year using IRS figures, the standard
+          deduction and no credits. Not tax or financial advice.
         </p>
       </section>
     </>

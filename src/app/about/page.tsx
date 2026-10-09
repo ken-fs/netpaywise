@@ -18,8 +18,8 @@ export default function About() {
         "@type": "Organization",
         name: "netpaywise",
         url: "https://netpaywise.com",
-        description: "Free US paycheck, income tax, and loan calculators. See what you actually keep.",
-        knowsAbout: ["paycheck calculation", "US income tax", "take-home pay", "loan amortization"],
+        description: "Free US paycheck, bonus and 1099 tax calculators. See what you actually keep.",
+        knowsAbout: ["paycheck calculation", "US income tax", "take-home pay", "self-employment tax"],
       },
       {
         "@type": "WebSite",
@@ -47,16 +47,16 @@ export default function About() {
             Most people know their salary but not their take-home. The gap — federal tax,
             state tax, Social Security, Medicare — is where the confusion lives. netpaywise is
             a set of tools that show that gap plainly, right when you're weighing a job, a
-            move, or a loan.
+            move, or a freelance gig.
           </p>
 
           <h2>How we calculate</h2>
           <p>Every result comes from published rules, not guesses:</p>
           <ul>
             <li><strong>Federal income tax</strong> — current IRS brackets, applied after the standard deduction.</li>
-            <li><strong>State income tax</strong> — each state's own brackets or flat rate; nine states take none. We cover {stateCount} states today and are adding more.</li>
+            <li><strong>State income tax</strong> — we only publish a state once its numbers are checked. Today that's the {stateCount} states with no income tax on wages; states with their own tax tables come later.</li>
             <li><strong>FICA</strong> — 6.2% Social Security up to the annual wage cap, plus 1.45% Medicare (and the 0.9% surtax for high earners).</li>
-            <li><strong>Loans</strong> — standard amortization math, the same formula every lender uses.</li>
+            <li><strong>1099 income</strong> — self-employment tax on 92.35% of profit, then income tax after half of it, the standard deduction and the 20% QBI deduction.</li>
           </ul>
           <p>
             Estimates assume the standard deduction and don't include every credit or local

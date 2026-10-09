@@ -4,5 +4,10 @@
   "name": "New Hampshire",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "New Hampshire never taxed wages. Its tax on interest and dividends was phased out and is gone starting with the 2025 tax year.",
+    "Like its neighbors to the south, New Hampshire relies on property taxes, which run high."
+  ],
+  "verifiedOn": "2026-10-09"
 }

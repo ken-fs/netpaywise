@@ -15,6 +15,8 @@ import {
   computePaycheck,
   computeIncomeTax,
   selfEmploymentTax,
+  qbiDeduction,
+  freelanceTax,
   salesTax,
   reverseSalesTax,
   overtimePay,
@@ -61,8 +63,23 @@ check("extra payment saves time and interest", () => {
 });
 
 console.log("TAX");
-check("progressive brackets: single taxable $50k = $5914", () => {
-  near(taxFromBrackets(50000, federal.brackets.single), 5914, 0.01);
+check("progressive brackets: single taxable $50k = $5752", () => {
+  near(taxFromBrackets(50000, federal.brackets.single), 5752, 0.01);
+});
+check("2026 tables match Rev. Proc. 2025-32 bracket floors", () => {
+  near(taxFromBrackets(105700, federal.brackets.single), 17966);
+  near(taxFromBrackets(256225, federal.brackets.single), 58448);
+  near(taxFromBrackets(211400, federal.brackets.married_jointly), 35932);
+  near(taxFromBrackets(768700, federal.brackets.married_jointly), 206583.5);
+  near(taxFromBrackets(105700, federal.brackets.head_of_household), 16155);
+  near(taxFromBrackets(640600, federal.brackets.head_of_household), 191171);
+  near(taxFromBrackets(384350, federal.brackets.married_separately), 103291.75);
+});
+check("2026 standard deduction and Social Security wage base", () => {
+  assert.equal(federal.standardDeduction.single, 16100);
+  assert.equal(federal.standardDeduction.married_jointly, 32200);
+  assert.equal(federal.standardDeduction.head_of_household, 24150);
+  assert.equal(federal.fica.socialSecurity.wageBase, 184500);
 });
 check("no tax on zero/negative taxable income", () => {
   assert.equal(taxFromBrackets(0, federal.brackets.single), 0);
@@ -123,7 +140,7 @@ check("pre-tax 401k lowers taxable income and total tax", () => {
 console.log("INCOME TAX / 1099 / SALES TAX");
 check("income tax = federal + state, no FICA", () => {
   const r = computeIncomeTax(80000, "single", 0, federal, va);
-  near(r.federal, taxFromBrackets(80000 - 15000, federal.brackets.single));
+  near(r.federal, taxFromBrackets(80000 - federal.standardDeduction.single, federal.brackets.single));
   near(r.total, r.federal + r.state);
   assert.ok(r.afterTax < 80000 && r.effectiveRate > 0);
 });
@@ -134,6 +151,29 @@ check("self-employment tax on $100k net ≈ $14,130", () => {
   near(r.seTax, 14129.55, 0.5);
   near(r.deductibleHalf, r.seTax / 2, 0.01);
   near(r.quarterly, r.seTax / 4, 0.01);
+});
+check("SE tax adds 0.9% Additional Medicare above the threshold, not deductible", () => {
+  const r = selfEmploymentTax(300000, federal, "single");
+  // base 277,050; SS capped 184,500*.124 = 22,878; Medicare 277,050*.029 + 77,050*.009 = 8,034.45 + 693.45
+  near(r.socialSecurity, 22878, 0.5);
+  near(r.medicare, 8727.9, 0.5);
+  near(r.deductibleHalf, (22878 + 8034.45) / 2, 0.5);
+});
+check("QBI: full below threshold, half at midpoint, $400 floor at the end", () => {
+  near(qbiDeduction(50000, 100000, "single", federal), 10000);
+  near(qbiDeduction(100000, 239250, "single", federal), 10000);
+  near(qbiDeduction(100000, 276750, "single", federal), 400);
+  near(qbiDeduction(500, 100000, "single", federal), 100);
+});
+check("1099 total on $60k single ≈ $12,037 ($3,009/quarter)", () => {
+  // SE 8,477.73; AGI 55,761.13; taxable before QBI 39,661.13; QBI capped at 20% of that = 7,932.23
+  // taxable 31,728.90 → income tax 1,240 + 12% × 19,328.90 = 3,559.47
+  const r = freelanceTax(60000, "single", federal);
+  near(r.se.seTax, 8477.73, 0.5);
+  near(r.qbiDeduction, 7932.23, 0.5);
+  near(r.federalIncomeTax, 3559.47, 0.5);
+  near(r.totalTax, 12037.2, 1);
+  near(r.quarterly, r.totalTax / 4, 0.01);
 });
 check("sales tax forward + reverse round-trip", () => {
   const f = salesTax(100, 8.25);
@@ -157,6 +197,9 @@ check("bonus $10k: 22% fed + FICA net", () => {
   near(r.socialSecurity, 620);
   near(r.medicare, 145);
   near(r.net, 10000 - r.totalWithheld);
+});
+check("bonus over $1M: 37% on the excess", () => {
+  near(bonusAfterTax(1200000, federal).federal, 220000 + 74000);
 });
 check("withholding: under-withholding suggests extra", () => {
   const r = withholdingCheck(80000, "single", 300, 26, federal);

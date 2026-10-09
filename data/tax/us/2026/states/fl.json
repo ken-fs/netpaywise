@@ -4,5 +4,10 @@
   "name": "Florida",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "Florida's constitution prohibits a personal income tax, so nothing comes out of your pay for the state.",
+    "Florida leans on sales tax and tourism instead. If you moved here from a high-tax state, the difference shows up on your very first paycheck."
+  ],
+  "verifiedOn": "2026-10-09"
 }

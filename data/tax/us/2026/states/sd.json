@@ -4,5 +4,10 @@
   "name": "South Dakota",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "South Dakota has no personal income tax and no corporate income tax.",
+    "The state gets most of its revenue from sales tax, which also applies to many services."
+  ],
+  "verifiedOn": "2026-10-09"
 }

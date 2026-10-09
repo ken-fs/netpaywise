@@ -4,5 +4,11 @@
   "name": "Washington",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "Washington doesn't tax wages. Its capital gains tax only reaches high earners selling investments, not your paycheck.",
+    "Washington does have two payroll deductions that other no-tax states don't: WA Cares (long-term care, 0.58% of wages) and the Paid Family and Medical Leave premium."
+  ],
+  "notIncluded": "This estimate leaves out WA Cares and the Paid Family and Medical Leave premium, so your real check will be roughly 1–1.5% lower.",
+  "verifiedOn": "2026-10-09"
 }

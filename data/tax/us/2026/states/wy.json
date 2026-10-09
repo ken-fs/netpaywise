@@ -4,5 +4,10 @@
   "name": "Wyoming",
   "taxYear": 2026,
   "verified": true,
-  "type": "none"
+  "type": "none",
+  "notes": [
+    "Wyoming has no personal income tax and no corporate income tax.",
+    "Mineral and energy production pays a big share of the state's bills, which keeps taxes on workers low."
+  ],
+  "verifiedOn": "2026-10-09"
 }

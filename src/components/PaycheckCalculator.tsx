@@ -125,7 +125,7 @@ export function PaycheckCalculator({ federal, states, lockedState, defaultSalary
         </div>
         <p className="disclaimer">
           Estimate for the {federal.taxYear} tax year. Not tax advice. Assumes standard
-          deduction, no credits.
+          deduction, no credits.{state?.notIncluded ? ` ${state.notIncluded}` : ""}
         </p>
       </aside>
     </div>

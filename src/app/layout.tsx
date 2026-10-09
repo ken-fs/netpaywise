@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     template: "%s | netpaywise",
   },
   description:
-    "Free US paycheck, income tax, and loan calculators. See what actually lands in your bank account, by state — no signup, no email.",
+    "Free US paycheck, bonus and 1099 tax calculators. See what actually lands in your bank account — no signup, no email.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,8 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </a>
           <nav className="nav">
             <a href="/paycheck-calculator/">Paycheck</a>
-            <a href="/income-tax-calculator/">Taxes</a>
-            <a href="/loan-calculator/">Loans</a>
+            <a href="/1099-tax-calculator/">1099</a>
+            <a href="/bonus-tax-calculator/">Bonus</a>
           </nav>
         </header>
         <main>{children}</main>

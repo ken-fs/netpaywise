@@ -171,14 +171,20 @@ export interface SelfEmploymentResult {
 
 /**
  * Self-employment (SE) tax for 1099 income. Rates derived from FICA config
- * (employee + employer halves): 12.4% SS up to the wage base + 2.9% Medicare.
+ * (employee + employer halves): 12.4% SS up to the wage base + 2.9% Medicare,
+ * plus the 0.9% Additional Medicare Tax above the filing-status threshold.
  */
-export function selfEmploymentTax(netProfit: number, federal: FederalConfig): SelfEmploymentResult {
+export function selfEmploymentTax(
+  netProfit: number,
+  federal: FederalConfig,
+  filingStatus: FilingStatus = "single",
+): SelfEmploymentResult {
   const base = Math.max(0, round2(netProfit * 0.9235));
   const ssRate = federal.fica.socialSecurity.rate * 2; // 12.4%
   const medRate = federal.fica.medicare.rate * 2; // 2.9%
   const socialSecurity = round2(Math.min(base, federal.fica.socialSecurity.wageBase) * ssRate);
-  const medicare = round2(base * medRate);
+  const extraMedicare = Math.max(0, base - federal.fica.medicare.additionalThreshold[filingStatus]) * federal.fica.medicare.additionalRate;
+  const medicare = round2(base * medRate + extraMedicare);
   const seTax = round2(socialSecurity + medicare);
   return {
     netProfit,
@@ -186,8 +192,69 @@ export function selfEmploymentTax(netProfit: number, federal: FederalConfig): Se
     socialSecurity,
     medicare,
     seTax,
-    deductibleHalf: round2(seTax / 2),
+    // Only the 15.3% part is deductible, not the Additional Medicare Tax.
+    deductibleHalf: round2((socialSecurity + base * medRate) / 2),
     quarterly: round2(seTax / 4),
+  };
+}
+
+/**
+ * Section 199A deduction for a sole proprietor with no employees or business property.
+ * Full 20% below the threshold; above it the W-2 wage limit is $0, so the deduction
+ * phases out linearly and is gone at the end of the phase-in range.
+ */
+export function qbiDeduction(
+  qbi: number,
+  taxableBeforeQbi: number,
+  filingStatus: FilingStatus,
+  federal: FederalConfig,
+): number {
+  const q = federal.qbi;
+  if (qbi <= 0 || taxableBeforeQbi <= 0) return 0;
+  const start = q.threshold[filingStatus];
+  const end = q.phaseInEnd[filingStatus];
+  const kept = taxableBeforeQbi <= start ? 1 : taxableBeforeQbi >= end ? 0 : (end - taxableBeforeQbi) / (end - start);
+  let deduction = qbi * q.rate * kept;
+  if (qbi >= q.minimumQbi) deduction = Math.max(deduction, q.minimumDeduction);
+  return round2(Math.min(deduction, taxableBeforeQbi * q.rate));
+}
+
+export interface FreelanceTaxResult {
+  se: SelfEmploymentResult;
+  qbiDeduction: number;
+  taxableIncome: number;
+  federalIncomeTax: number;
+  totalTax: number;
+  keep: number;
+  quarterly: number;
+  effectiveRate: number;
+}
+
+/**
+ * Whole federal bill on 1099 income with no other job: SE tax + income tax
+ * (after half of SE tax, the standard deduction and the QBI deduction).
+ */
+export function freelanceTax(
+  netProfit: number,
+  filingStatus: FilingStatus,
+  federal: FederalConfig,
+): FreelanceTaxResult {
+  const se = selfEmploymentTax(netProfit, federal, filingStatus);
+  const agi = Math.max(0, netProfit - se.deductibleHalf);
+  const taxableBeforeQbi = Math.max(0, agi - federal.standardDeduction[filingStatus]);
+  const qbi = qbiDeduction(netProfit - se.deductibleHalf, taxableBeforeQbi, filingStatus, federal);
+  const taxableIncome = round2(Math.max(0, taxableBeforeQbi - qbi));
+  const incomeTax = taxFromBrackets(taxableIncome, federal.brackets[filingStatus]);
+  const totalTax = round2(se.seTax + incomeTax);
+  return {
+    se,
+    qbiDeduction: qbi,
+    taxableIncome,
+    federalIncomeTax: incomeTax,
+    totalTax,
+    keep: round2(netProfit - totalTax),
+    quarterly: round2(totalTax / 4),
+    effectiveRate: netProfit > 0 ? round2((totalTax / netProfit) * 100) : 0,
   };
 }
 
@@ -233,7 +300,8 @@ export function bonusAfterTax(
   stateRatePct = 0,
 ): BonusResult {
   const b = Math.max(0, bonus);
-  const fed = round2(Math.min(b, 1_000_000) * 0.22 + Math.max(0, b - 1_000_000) * 0.37);
+  const sw = federal.supplementalWithholding;
+  const fed = round2(Math.min(b, sw.highThreshold) * sw.rate + Math.max(0, b - sw.highThreshold) * sw.highRate);
   const ss = round2(b * federal.fica.socialSecurity.rate);
   const med = round2(b * federal.fica.medicare.rate);
   const state = round2(b * (stateRatePct / 100));
