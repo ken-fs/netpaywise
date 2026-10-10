@@ -309,6 +309,37 @@ export function bonusAfterTax(
   return { bonus: b, federal: fed, socialSecurity: ss, medicare: med, state, totalWithheld, net: round2(b - totalWithheld) };
 }
 
+export interface BonusAggregateResult {
+  /** Federal withheld from the regular check alone. */
+  regularWithholding: number;
+  /** Federal withheld when the bonus rides on the same check. */
+  combinedWithholding: number;
+  /** The extra federal withholding caused by the bonus. */
+  federal: number;
+}
+
+/**
+ * Aggregate method: the bonus is added to a regular paycheck and the whole check is withheld
+ * as if you earned that much every period. Annualized wages minus the standard deduction run
+ * through the normal brackets — the IRS percentage method for a W-4 with no adjustments.
+ */
+export function bonusAggregate(
+  bonus: number,
+  regularPerPeriod: number,
+  periodsPerYear: number,
+  filingStatus: FilingStatus,
+  federal: FederalConfig,
+): BonusAggregateResult {
+  const perCheck = (wages: number) => {
+    const annual = Math.max(0, wages) * periodsPerYear;
+    const taxable = Math.max(0, annual - federal.standardDeduction[filingStatus]);
+    return round2(taxFromBrackets(taxable, federal.brackets[filingStatus]) / periodsPerYear);
+  };
+  const regularWithholding = perCheck(regularPerPeriod);
+  const combinedWithholding = perCheck(regularPerPeriod + Math.max(0, bonus));
+  return { regularWithholding, combinedWithholding, federal: round2(combinedWithholding - regularWithholding) };
+}
+
 export interface WithholdingResult {
   estimatedAnnualTax: number;
   annualWithheld: number;

@@ -21,6 +21,7 @@ import {
   reverseSalesTax,
   overtimePay,
   bonusAfterTax,
+  bonusAggregate,
   withholdingCheck,
   hourlyToAnnual,
   annualToHourly,
@@ -197,6 +198,14 @@ check("bonus $10k: 22% fed + FICA net", () => {
   near(r.socialSecurity, 620);
   near(r.medicare, 145);
   near(r.net, 10000 - r.totalWithheld);
+});
+check("aggregate bonus method: $5k on a $2.5k biweekly single check", () => {
+  // regular: 65,000 − 16,100 = 48,900 taxable → 5,620 / 26 = 216.15
+  // combined: 7,500 × 26 = 195,000 − 16,100 = 178,900 → 17,966 + 24% × 73,200 = 35,534 / 26 = 1,366.69
+  const r = bonusAggregate(5000, 2500, 26, "single", federal);
+  near(r.regularWithholding, 216.15, 0.01);
+  near(r.combinedWithholding, 1366.69, 0.01);
+  near(r.federal, 1150.54, 0.02);
 });
 check("bonus over $1M: 37% on the excess", () => {
   near(bonusAfterTax(1200000, federal).federal, 220000 + 74000);
