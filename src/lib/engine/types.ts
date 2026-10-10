@@ -61,6 +61,8 @@ export interface StateConfig {
   bracketFallback?: FilingStatus;
   /** State-specific facts shown on the state page. */
   notes?: string[];
+  /** Employee payroll premiums withheld by the state (e.g. WA Cares, paid leave). */
+  payrollTaxes?: { name: string; rate: number; wageBase?: number }[];
   /** Payroll deductions the estimate leaves out, shown next to the result. */
   notIncluded?: string;
 }

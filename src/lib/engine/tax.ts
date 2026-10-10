@@ -82,6 +82,15 @@ export function stateIncomeTax(
   return taxFromBrackets(taxable, brackets);
 }
 
+/** Employee payroll premiums a state withholds on gross wages (not reduced by 401k/HSA). */
+export function statePayrollTax(grossAnnual: number, state: StateConfig): number {
+  const total = (state.payrollTaxes ?? []).reduce(
+    (sum, t) => sum + Math.min(Math.max(0, grossAnnual), t.wageBase ?? Infinity) * t.rate,
+    0,
+  );
+  return round2(total);
+}
+
 export interface PaycheckInput {
   grossAnnual: number;
   payFrequency: PayFrequency;
@@ -94,6 +103,8 @@ export interface PaycheckResult {
   grossAnnual: number;
   federalIncomeTax: number;
   stateIncomeTax: number;
+  /** State payroll premiums such as WA Cares and paid leave. */
+  statePayroll: number;
   socialSecurity: number;
   medicare: number;
   totalTax: number;
@@ -112,8 +123,9 @@ export function computePaycheck(
   const fed = federalIncomeTax(input.grossAnnual, input.filingStatus, preTax, federal);
   const st = stateIncomeTax(input.grossAnnual, input.filingStatus, preTax, state);
   const f = fica(input.grossAnnual, input.filingStatus, federal);
+  const sp = statePayrollTax(input.grossAnnual, state);
 
-  const totalTax = round2(fed.tax + st + f.total);
+  const totalTax = round2(fed.tax + st + sp + f.total);
   const takeHomeAnnual = round2(input.grossAnnual - preTax - totalTax);
   const periods = PERIODS_PER_YEAR[input.payFrequency];
 
@@ -121,6 +133,7 @@ export function computePaycheck(
     grossAnnual: input.grossAnnual,
     federalIncomeTax: fed.tax,
     stateIncomeTax: st,
+    statePayroll: sp,
     socialSecurity: f.socialSecurity,
     medicare: f.medicare,
     totalTax,

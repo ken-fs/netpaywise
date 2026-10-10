@@ -1,5 +1,5 @@
 {
-  "_comment": "Washington has no state income tax on wages.",
+  "_comment": "Washington has no state income tax on wages. Employee payroll premiums (2026, verified 2026-10-10 on paidleave.wa.gov): Paid Family and Medical Leave 1.13% of wages up to the Social Security cap, employee share up to 71.43%; WA Cares 0.58% of all wages, no cap.",
   "state": "WA",
   "name": "Washington",
   "taxYear": 2026,
@@ -7,8 +7,19 @@
   "type": "none",
   "notes": [
     "Washington doesn't tax wages. Its capital gains tax only reaches high earners selling investments, not your paycheck.",
-    "Washington does have two payroll deductions that other no-tax states don't: WA Cares (long-term care, 0.58% of wages) and the Paid Family and Medical Leave premium."
+    "Washington does take two small payroll premiums that other no-tax states don't. Paid Family and Medical Leave is 1.13% of wages in 2026, and employees pay up to 71.43% of it (about 0.81% of pay, up to $184,500 of wages). WA Cares, the long-term care program, is 0.58% of all wages. Both are included in the result above.",
+    "Some people are exempt from WA Cares, for example those who got an approved exemption for private long-term care insurance. If that's you, your check is about 0.58% bigger."
   ],
-  "notIncluded": "This estimate leaves out WA Cares and the Paid Family and Medical Leave premium, so your real check will be roughly 1–1.5% lower.",
-  "verifiedOn": "2026-10-09"
+  "verifiedOn": "2026-10-09",
+  "payrollTaxes": [
+    {
+      "name": "Paid Family and Medical Leave",
+      "rate": 0.00807159,
+      "wageBase": 184500
+    },
+    {
+      "name": "WA Cares",
+      "rate": 0.0058
+    }
+  ]
 }

@@ -42,18 +42,22 @@ export default async function StatePaycheck({ params }: { params: Promise<{ stat
   const state = loadState(meta.abbr);
   const others = statesWithData().filter((s) => s.abbr !== meta.abbr);
   const noTax = state.type === "none";
+  const premiums = state.payrollTaxes ?? [];
+  const premiumNames = premiums.map((t) => t.name).join(" and ");
   const rate = topRate(state);
 
   const faq = [
     {
       q: `Does ${meta.name} have a state income tax?`,
       a: noTax
-        ? `No. ${meta.name} takes no state income tax, so only federal tax and FICA come out of your paycheck.`
+        ? premiums.length
+          ? `No. ${meta.name} takes no state income tax. Besides federal tax and FICA, the only state deductions are the ${premiumNames} premiums.`
+          : `No. ${meta.name} takes no state income tax, so only federal tax and FICA come out of your paycheck.`
         : `Yes. ${meta.name} taxes income${rate ? `, topping out around ${rate.toFixed(2)}%` : ""}. It comes out on top of federal tax and FICA.`,
     },
     {
       q: `How much is take-home pay in ${meta.name}?`,
-      a: `Enter your salary above to see it. Take-home is your gross pay minus federal tax${noTax ? "" : `, ${meta.name} state tax`}, and FICA.`,
+      a: `Enter your salary above to see it. Take-home is your gross pay minus federal tax${noTax ? "" : `, ${meta.name} state tax`}${premiums.length ? `, the ${premiumNames} premiums` : ""}, and FICA.`,
     },
     {
       q: "Do I need to sign up?",
@@ -84,7 +88,9 @@ export default async function StatePaycheck({ params }: { params: Promise<{ stat
           <h1>Your {meta.name} paycheck, after taxes.</h1>
           <p className="lede" style={{ color: "var(--slate)", maxWidth: "60ch" }}>
             {noTax
-              ? `Good news: ${meta.name} takes no state income tax. Only federal and FICA touch your pay.`
+              ? premiums.length
+                ? `Good news: ${meta.name} takes no state income tax. Federal tax, FICA and two small state premiums are all that come out.`
+                : `Good news: ${meta.name} takes no state income tax. Only federal and FICA touch your pay.`
               : `See exactly what federal tax, ${meta.name} tax, and FICA leave in your pocket.`}
           </p>
         </div>

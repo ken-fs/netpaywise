@@ -35,6 +35,7 @@ const federal = load("data/tax/us/2026/federal.json") as FederalConfig;
 const ca = load("data/tax/us/2026/states/ca.json") as StateConfig;
 const tx = load("data/tax/us/2026/states/tx.json") as StateConfig;
 const va = load("data/tax/us/2026/states/va.json") as StateConfig;
+const wa = load("data/tax/us/2026/states/wa.json") as StateConfig;
 
 let passed = 0;
 function check(name: string, fn: () => void) {
@@ -137,6 +138,16 @@ check("pre-tax 401k lowers taxable income and total tax", () => {
     tx,
   );
   assert.ok(with401k.federalIncomeTax < base.federalIncomeTax);
+});
+
+check("Washington: PFML employee share capped at the SS base + WA Cares uncapped", () => {
+  const r = computePaycheck({ grossAnnual: 80000, payFrequency: "annual", filingStatus: "single" }, federal, wa);
+  // 80,000 × (0.0113 × 0.7143) + 80,000 × 0.0058 = 645.73 + 464 = 1,109.73
+  near(r.statePayroll, 1109.73, 0.05);
+  assert.equal(r.stateIncomeTax, 0);
+  const hi = computePaycheck({ grossAnnual: 300000, payFrequency: "annual", filingStatus: "single" }, federal, wa);
+  near(hi.statePayroll, 184500 * 0.0113 * 0.7143 + 300000 * 0.0058, 0.05);
+  near(r.takeHomeAnnual, 80000 - r.totalTax, 0.01);
 });
 
 console.log("INCOME TAX / 1099 / SALES TAX");
