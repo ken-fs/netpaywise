@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SalaryHourlyCalculator } from "@/components/SalaryHourlyCalculator";
 import { ToolPage } from "@/components/ToolPage";
+import { AMOUNT_PAGES, labelOf } from "@/lib/amounts";
 
 export const metadata: Metadata = {
   title: "Salary to Hourly Calculator — Convert Either Way",
@@ -33,6 +34,10 @@ export default function SalaryToHourly() {
             These are gross numbers, before tax. To see what an offer pays after federal tax
             and FICA, put it into the <a href="/paycheck-calculator/">paycheck calculator</a>.
           </p>
+          <h2>Common amounts, worked out</h2>
+          <ul className="amount-links">
+            {AMOUNT_PAGES.map((o) => <li key={o.slug}><a href={`/salary-to-hourly/${o.slug}/`}>{labelOf(o)}</a></li>)}
+          </ul>
         </>
       }
     >

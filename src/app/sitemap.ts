@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { statesWithData } from "@/lib/data";
+import { AMOUNT_PAGES } from "@/lib/amounts";
 
 const BASE = "https://takehomepal.com";
 
@@ -26,5 +27,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
-  return [...pages, ...states];
+  const amounts = AMOUNT_PAGES.map((a) => ({
+    url: `${BASE}/salary-to-hourly/${a.slug}/`,
+    changeFrequency: "yearly" as const,
+    priority: 0.6,
+  }));
+  return [...pages, ...states, ...amounts];
 }

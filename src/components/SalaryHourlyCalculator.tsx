@@ -4,9 +4,12 @@ import { useMemo, useState } from "react";
 import { hourlyToAnnual, annualToHourly } from "@/lib/engine/tax";
 import { usd, usd2 } from "@/lib/format";
 
-export function SalaryHourlyCalculator() {
-  const [mode, setMode] = useState<"toHourly" | "toSalary">("toHourly");
-  const [value, setValue] = useState(65000);
+export function SalaryHourlyCalculator({
+  defaultMode = "toHourly",
+  defaultValue,
+}: { defaultMode?: "toHourly" | "toSalary"; defaultValue?: number } = {}) {
+  const [mode, setMode] = useState<"toHourly" | "toSalary">(defaultMode);
+  const [value, setValue] = useState(defaultValue ?? (defaultMode === "toHourly" ? 65000 : 31));
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
   const [weeks, setWeeks] = useState(52);
 
