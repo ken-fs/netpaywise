@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 // TODO(launch): confirm this inbox exists and is monitored before go-live.
-const CONTACT_EMAIL = "hello@netpaywise.com";
+const CONTACT_EMAIL = "hello@takehomepal.com";
 
 export const metadata: Metadata = {
   title: "Contact",

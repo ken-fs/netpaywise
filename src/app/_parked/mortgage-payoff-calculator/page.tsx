@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function MortgagePayoff() {
   return (
     <ToolPage
-      appName="netpaywise Mortgage Payoff Calculator"
+      appName="takehomepal Mortgage Payoff Calculator"
       title="Pay a little extra. Finish years early."
       lede="Add an extra amount each month and watch the payoff date — and total interest — drop."
       faq={[

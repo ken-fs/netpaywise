@@ -14,7 +14,7 @@ export default function BonusTax() {
   const federal = loadFederal();
   return (
     <ToolPage
-      appName="netpaywise Bonus Tax Calculator"
+      appName="takehomepal Bonus Tax Calculator"
       title="Your bonus, after the withholding hit."
       lede="Bonuses get withheld at a flat 22% federal, plus FICA. Here's what actually lands."
       faq={[

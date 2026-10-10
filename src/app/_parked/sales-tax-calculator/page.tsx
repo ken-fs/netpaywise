@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function SalesTax() {
   return (
     <ToolPage
-      appName="netpaywise Sales Tax Calculator"
+      appName="takehomepal Sales Tax Calculator"
       title="Price in, total out."
       lede="Type a price and your combined state + local rate. Get the tax and the total to pay."
       faq={[

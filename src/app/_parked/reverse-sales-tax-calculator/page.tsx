@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ReverseSalesTax() {
   return (
     <ToolPage
-      appName="netpaywise Reverse Sales Tax Calculator"
+      appName="takehomepal Reverse Sales Tax Calculator"
       title="Total in, pre-tax price out."
       lede="Got a receipt total but need the price before tax? Enter the total and your rate."
       faq={[

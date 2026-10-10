@@ -28,10 +28,10 @@ const mono = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://netpaywise.com"),
+  metadataBase: new URL("https://takehomepal.com"),
   title: {
-    default: "netpaywise — See your real take-home pay",
-    template: "%s | netpaywise",
+    default: "takehomepal — See your real take-home pay",
+    template: "%s | takehomepal",
   },
   description:
     "Free US paycheck, bonus and 1099 tax calculators. See what actually lands in your bank account — no signup, no email.",
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="wrap site-head">
           <a href="/" className="brand" style={{ textDecoration: "none" }}>
-            net<b>pay</b>wise
+            takehome<b>pal</b>
           </a>
           <nav className="nav">
             <a href="/paycheck-calculator/">Paycheck</a>
@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="/privacy/">Privacy</a>
             <a href="/terms/">Terms</a>
           </nav>
-          <div>© {new Date().getFullYear()} netpaywise · Estimates, not advice.</div>
+          <div>© {new Date().getFullYear()} takehomepal · Estimates, not advice.</div>
         </footer>
       </body>
     </html>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Affordability() {
   return (
     <ToolPage
-      appName="netpaywise Mortgage Affordability Calculator"
+      appName="takehomepal Mortgage Affordability Calculator"
       title="How much house, really?"
       lede="Income, debts, down payment. We use the 28/36 rule to size a comfortable price."
       faq={[

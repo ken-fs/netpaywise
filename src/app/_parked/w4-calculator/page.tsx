@@ -14,7 +14,7 @@ export default function W4() {
   const federal = loadFederal();
   return (
     <ToolPage
-      appName="netpaywise W-4 Withholding Calculator"
+      appName="takehomepal W-4 Withholding Calculator"
       title="Refund, or a surprise bill?"
       lede="Compare what you're withholding to what you'll owe. If you're short, we suggest the extra for W-4 line 4c."
       faq={[

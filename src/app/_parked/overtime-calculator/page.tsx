@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Overtime() {
   return (
     <ToolPage
-      appName="netpaywise Overtime Calculator"
+      appName="takehomepal Overtime Calculator"
       title="What those extra hours are worth."
       lede="Rate, regular hours, overtime hours. See the week's gross and your real effective rate."
       faq={[

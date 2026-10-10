@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "netpaywise gives you estimates, not tax or financial advice. Here's the fine print, in plain English.",
+  description: "takehomepal gives you estimates, not tax or financial advice. Here's the fine print, in plain English.",
   alternates: { canonical: "/terms/" },
 };
 
@@ -19,7 +19,7 @@ export default function Terms() {
       <div className="prose">
         <h2>Estimates, not advice</h2>
         <p>
-          netpaywise provides free calculators for education and planning. The results are
+          takehomepal provides free calculators for education and planning. The results are
           estimates. They are not tax, legal, financial, or investment advice, and they don't
           create a professional relationship.
         </p>
@@ -41,7 +41,7 @@ export default function Terms() {
 
         <h2>Limitation of liability</h2>
         <p>
-          To the fullest extent allowed by law, netpaywise isn't liable for any loss or damage
+          To the fullest extent allowed by law, takehomepal isn't liable for any loss or damage
           arising from your use of the site or reliance on its results.
         </p>
 

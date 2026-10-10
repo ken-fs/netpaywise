@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "takehomepal",
+  "compatibility_date": "2026-10-01",
+  // Bound after the zone went active (2026-10-10 04:21 UTC). Custom domains get bound only after the zone is active: binding while it's pending leaves the
+  // certificate unissued with no retry (Ship/AGENTS.md, pitfall 2). www 301s to the apex
+  // via a Single Redirect rule (scripts/cf-www-redirect.py).
+  "routes": [
+    { "pattern": "takehomepal.com", "custom_domain": true },
+    { "pattern": "www.takehomepal.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

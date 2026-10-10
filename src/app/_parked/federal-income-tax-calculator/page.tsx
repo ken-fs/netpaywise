@@ -14,7 +14,7 @@ export default function FederalIncomeTax() {
   const federal = loadFederal();
   return (
     <ToolPage
-      appName="netpaywise Federal Income Tax Calculator"
+      appName="takehomepal Federal Income Tax Calculator"
       title="Your federal income tax, bracket by bracket."
       lede="Enter your income and filing status. We apply this year's IRS brackets after the standard deduction."
       faq={[

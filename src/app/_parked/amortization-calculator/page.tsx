@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function Amortization() {
   return (
     <ToolPage
-      appName="netpaywise Amortization Calculator"
+      appName="takehomepal Amortization Calculator"
       title="Where every payment actually goes."
       lede="Amortization is just the split between interest and principal each month. Here's yours."
       faq={[

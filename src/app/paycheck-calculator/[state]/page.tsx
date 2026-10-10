@@ -66,8 +66,8 @@ export default async function StatePaycheck({ params }: { params: Promise<{ stat
     "@graph": [
       { "@type": "WebApplication", name: `${meta.name} Paycheck Calculator`, applicationCategory: "FinanceApplication", operatingSystem: "Web", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } },
       { "@type": "BreadcrumbList", itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Paycheck Calculator", item: "https://netpaywise.com/paycheck-calculator/" },
-        { "@type": "ListItem", position: 2, name: meta.name, item: `https://netpaywise.com/paycheck-calculator/${meta.abbr.toLowerCase()}/` },
+        { "@type": "ListItem", position: 1, name: "Paycheck Calculator", item: "https://takehomepal.com/paycheck-calculator/" },
+        { "@type": "ListItem", position: 2, name: meta.name, item: `https://takehomepal.com/paycheck-calculator/${meta.abbr.toLowerCase()}/` },
       ] },
       { "@type": "FAQPage", mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
     ],

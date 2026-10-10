@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How netpaywise handles your data: the short version is we barely touch it. Calculators run in your browser.",
+  description: "How takehomepal handles your data: the short version is we barely touch it. Calculators run in your browser.",
   alternates: { canonical: "/privacy/" },
 };
 

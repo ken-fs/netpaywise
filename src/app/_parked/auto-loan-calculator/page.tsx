@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function AutoLoan() {
   return (
     <ToolPage
-      appName="netpaywise Auto Loan Calculator"
+      appName="takehomepal Auto Loan Calculator"
       title="What that car really costs per month."
       lede="Loan amount, rate, and term. See the monthly payment and how much interest rides along."
       faq={[

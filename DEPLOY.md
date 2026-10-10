@@ -1,46 +1,31 @@
-# Deploy — Cloudflare Pages
+# Deploy — Cloudflare Workers (static assets)
 
-netpaywise is a **static export** (`next.config.ts` → `output: "export"`). The build
-produces `out/`, which Cloudflare Pages serves directly. No SSR, no `next-on-pages`.
+takehomepal (repo: `ken-fs/netpaywise`) is a **static export** (`next.config.ts` → `output: "export"`).
+`pnpm build` writes `out/`, and the `takehomepal` Worker serves it as static assets (`wrangler.jsonc`).
 
-## Option A — Git integration (recommended, auto-deploys on push)
+## Normal path: push to main
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Pick the repo `ken-fs/netpaywise`, branch `main`.
-3. Build settings:
-   | Setting | Value |
-   |---|---|
-   | Framework preset | **Next.js (Static HTML Export)** — or **None** |
-   | Build command | `pnpm build` |
-   | Build output directory | `out` |
-   | Root directory | `/` |
-4. Environment variables:
-   | Name | Value |
-   |---|---|
-   | `NODE_VERSION` | `22` |
-5. Save & Deploy. Every push to `main` rebuilds automatically.
+`.github/workflows/deploy.yml` runs on every push to `main`: install → test → build → check output →
+write `/.well-known/deploy.txt` (= commit SHA) → `wrangler deploy` → confirm the live marker matches.
+Repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
 
-pnpm is auto-detected from `pnpm-lock.yaml` + the `packageManager` field in `package.json`.
-`.nvmrc` also pins Node 22.
+Check what's live: `curl -s https://takehomepal.com/.well-known/deploy.txt` should equal `git rev-parse HEAD`.
 
-## Option B — Wrangler CLI (manual, one-off)
+## Manual (one-off)
 
 ```bash
-pnpm build
-npx wrangler login                 # first time only
-npx wrangler pages deploy out --project-name netpaywise
+pnpm build && npx wrangler deploy
 ```
 
-## Custom domain
+A manual deploy is overwritten by the next push, so commit first.
 
-After the first deploy, in the Pages project → **Custom domains** → add
-`netpaywise.com` (and `www`). Cloudflare handles TLS. If the domain's DNS is already
-on Cloudflare, it's one click; otherwise point the nameservers/records as instructed.
+## Domain
 
-## Notes
+- Zone `takehomepal.com` on Cloudflare (NS daisy / lochlan), registrar Spaceship.
+- `always_use_https` on, minimum TLS 1.2.
+- `takehomepal.com` and `www.takehomepal.com` are Worker custom domains; www 301s to the apex.
 
-- `public/_headers` sets long cache on hashed assets + baseline security headers.
-- `trailingSlash: true` means routes are served as `/path/index.html`; Cloudflare handles
-  the redirect from `/path` automatically.
-- ⚠️ Before going live: verify tax data (`data/tax/**` — most files are `verified:false`)
-  and confirm the contact inbox. See README.
+## Before every tax year
+
+Update `data/tax/us/<year>/federal.json` from the IRS inflation Rev. Proc. (October) and Publication 15
+(December), then rerun `pnpm test`. See README.

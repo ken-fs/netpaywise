@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { statesWithData } from "@/lib/data";
 
-const BASE = "https://netpaywise.com";
+const BASE = "https://takehomepal.com";
 
 const PATHS = [
   "/",

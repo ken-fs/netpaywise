@@ -15,7 +15,7 @@ export default function IncomeTaxHub() {
   const states = loadAllStateConfigs();
   return (
     <ToolPage
-      appName="netpaywise Income Tax Calculator"
+      appName="takehomepal Income Tax Calculator"
       title="How much income tax you actually owe."
       lede="Federal plus your state, on this year's brackets. See the bite and what's left."
       faq={[

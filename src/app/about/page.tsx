@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { loadFederal, statesWithData } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "About netpaywise",
-  description: "Why netpaywise exists, how we calculate, and where our tax numbers come from.",
+  title: "About takehomepal",
+  description: "Why takehomepal exists, how we calculate, and where our tax numbers come from.",
   alternates: { canonical: "/about/" },
 };
 
@@ -16,15 +16,15 @@ export default function About() {
     "@graph": [
       {
         "@type": "Organization",
-        name: "netpaywise",
-        url: "https://netpaywise.com",
+        name: "takehomepal",
+        url: "https://takehomepal.com",
         description: "Free US paycheck, bonus and 1099 tax calculators. See what you actually keep.",
         knowsAbout: ["paycheck calculation", "US income tax", "take-home pay", "self-employment tax"],
       },
       {
         "@type": "WebSite",
-        name: "netpaywise",
-        url: "https://netpaywise.com",
+        name: "takehomepal",
+        url: "https://takehomepal.com",
       },
     ],
   };
@@ -36,7 +36,7 @@ export default function About() {
         <div style={{ paddingTop: "clamp(36px,6vw,64px)" }}>
           <h1>Built so you're never surprised by your paycheck.</h1>
           <p className="lede" style={{ color: "var(--slate)", maxWidth: "54ch" }}>
-            netpaywise turns a confusing pay stub into one clear number: what you actually
+            takehomepal turns a confusing pay stub into one clear number: what you actually
             keep. Free, fast, and honest about the taxes in between.
           </p>
         </div>
@@ -45,7 +45,7 @@ export default function About() {
           <h2>Why this exists</h2>
           <p>
             Most people know their salary but not their take-home. The gap — federal tax,
-            state tax, Social Security, Medicare — is where the confusion lives. netpaywise is
+            state tax, Social Security, Medicare — is where the confusion lives. takehomepal is
             a set of tools that show that gap plainly, right when you're weighing a job, a
             move, or a freelance gig.
           </p>
@@ -82,7 +82,7 @@ export default function About() {
 
           <h2>No signup, no email, no catch</h2>
           <p>
-            The calculators run in your browser. We never see or store what you type. netpaywise
+            The calculators run in your browser. We never see or store what you type. takehomepal
             is an independent project, supported by ads — not by selling your data, because we
             don't have it.
           </p>

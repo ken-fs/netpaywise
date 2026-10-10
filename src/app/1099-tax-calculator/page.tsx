@@ -16,7 +16,7 @@ export default function TenNinetyNineTax() {
   const y = federal.taxYear;
   return (
     <ToolPage
-      appName="netpaywise 1099 Tax Calculator"
+      appName="takehomepal 1099 Tax Calculator"
       title="1099 taxes, before they surprise you."
       lede="Work for yourself? Nobody withholds anything, so the whole bill lands on you. Here's the number to set aside every quarter."
       faq={[

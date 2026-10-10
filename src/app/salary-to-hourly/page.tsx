@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function SalaryToHourly() {
   return (
     <ToolPage
-      appName="netpaywise Salary and Hourly Converter"
+      appName="takehomepal Salary and Hourly Converter"
       title="Salary or hourly — same pay, different label."
       lede="Convert either direction. Tweak your weekly hours and working weeks to match real life."
       faq={[

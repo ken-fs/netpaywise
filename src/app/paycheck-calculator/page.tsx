@@ -35,7 +35,7 @@ export default function PaycheckHub() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebApplication", name: "netpaywise Paycheck Calculator", applicationCategory: "FinanceApplication", operatingSystem: "Web", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } },
+      { "@type": "WebApplication", name: "takehomepal Paycheck Calculator", applicationCategory: "FinanceApplication", operatingSystem: "Web", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } },
       { "@type": "FAQPage", mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
     ],
   };
