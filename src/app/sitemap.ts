@@ -8,6 +8,8 @@ const PATHS = [
   "/paycheck-calculator/",
   "/1099-tax-calculator/",
   "/bonus-tax-calculator/",
+  "/overtime-calculator/",
+  "/no-tax-on-overtime-calculator/",
   "/salary-to-hourly/",
   "/about/",
   "/contact/",

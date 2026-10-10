@@ -1,7 +1,7 @@
 {
   "_comment": "US federal tax config for tax year 2026. Brackets, standard deduction and QBI thresholds: IRS Rev. Proc. 2025-32 (incl. One Big Beautiful Bill amendments). Social Security wage base and supplemental withholding: IRS Publication 15 (2026). Verified 2026-10-09.",
   "taxYear": 2026,
-  "source": "IRS Rev. Proc. 2025-32; IRS Publication 15 (2026)",
+  "source": "IRS Rev. Proc. 2025-32; IRS Publication 15 (2026); Schedule 1-A (Form 1040)",
   "verified": true,
   "verifiedOn": "2026-10-09",
   "standardDeduction": {
@@ -12,52 +12,180 @@
   },
   "brackets": {
     "single": [
-      { "upTo": 12400, "rate": 0.10 },
-      { "upTo": 50400, "rate": 0.12 },
-      { "upTo": 105700, "rate": 0.22 },
-      { "upTo": 201775, "rate": 0.24 },
-      { "upTo": 256225, "rate": 0.32 },
-      { "upTo": 640600, "rate": 0.35 },
-      { "upTo": null, "rate": 0.37 }
+      {
+        "upTo": 12400,
+        "rate": 0.1
+      },
+      {
+        "upTo": 50400,
+        "rate": 0.12
+      },
+      {
+        "upTo": 105700,
+        "rate": 0.22
+      },
+      {
+        "upTo": 201775,
+        "rate": 0.24
+      },
+      {
+        "upTo": 256225,
+        "rate": 0.32
+      },
+      {
+        "upTo": 640600,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
     ],
     "married_jointly": [
-      { "upTo": 24800, "rate": 0.10 },
-      { "upTo": 100800, "rate": 0.12 },
-      { "upTo": 211400, "rate": 0.22 },
-      { "upTo": 403550, "rate": 0.24 },
-      { "upTo": 512450, "rate": 0.32 },
-      { "upTo": 768700, "rate": 0.35 },
-      { "upTo": null, "rate": 0.37 }
+      {
+        "upTo": 24800,
+        "rate": 0.1
+      },
+      {
+        "upTo": 100800,
+        "rate": 0.12
+      },
+      {
+        "upTo": 211400,
+        "rate": 0.22
+      },
+      {
+        "upTo": 403550,
+        "rate": 0.24
+      },
+      {
+        "upTo": 512450,
+        "rate": 0.32
+      },
+      {
+        "upTo": 768700,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
     ],
     "married_separately": [
-      { "upTo": 12400, "rate": 0.10 },
-      { "upTo": 50400, "rate": 0.12 },
-      { "upTo": 105700, "rate": 0.22 },
-      { "upTo": 201775, "rate": 0.24 },
-      { "upTo": 256225, "rate": 0.32 },
-      { "upTo": 384350, "rate": 0.35 },
-      { "upTo": null, "rate": 0.37 }
+      {
+        "upTo": 12400,
+        "rate": 0.1
+      },
+      {
+        "upTo": 50400,
+        "rate": 0.12
+      },
+      {
+        "upTo": 105700,
+        "rate": 0.22
+      },
+      {
+        "upTo": 201775,
+        "rate": 0.24
+      },
+      {
+        "upTo": 256225,
+        "rate": 0.32
+      },
+      {
+        "upTo": 384350,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
     ],
     "head_of_household": [
-      { "upTo": 17700, "rate": 0.10 },
-      { "upTo": 67450, "rate": 0.12 },
-      { "upTo": 105700, "rate": 0.22 },
-      { "upTo": 201750, "rate": 0.24 },
-      { "upTo": 256200, "rate": 0.32 },
-      { "upTo": 640600, "rate": 0.35 },
-      { "upTo": null, "rate": 0.37 }
+      {
+        "upTo": 17700,
+        "rate": 0.1
+      },
+      {
+        "upTo": 67450,
+        "rate": 0.12
+      },
+      {
+        "upTo": 105700,
+        "rate": 0.22
+      },
+      {
+        "upTo": 201750,
+        "rate": 0.24
+      },
+      {
+        "upTo": 256200,
+        "rate": 0.32
+      },
+      {
+        "upTo": 640600,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
     ]
   },
   "fica": {
-    "socialSecurity": { "rate": 0.062, "wageBase": 184500 },
-    "medicare": { "rate": 0.0145, "additionalRate": 0.009, "additionalThreshold": { "single": 200000, "married_jointly": 250000, "married_separately": 125000, "head_of_household": 200000 } }
+    "socialSecurity": {
+      "rate": 0.062,
+      "wageBase": 184500
+    },
+    "medicare": {
+      "rate": 0.0145,
+      "additionalRate": 0.009,
+      "additionalThreshold": {
+        "single": 200000,
+        "married_jointly": 250000,
+        "married_separately": 125000,
+        "head_of_household": 200000
+      }
+    }
   },
-  "supplementalWithholding": { "rate": 0.22, "highRate": 0.37, "highThreshold": 1000000 },
+  "supplementalWithholding": {
+    "rate": 0.22,
+    "highRate": 0.37,
+    "highThreshold": 1000000
+  },
   "qbi": {
     "rate": 0.2,
-    "threshold": { "single": 201750, "married_jointly": 403500, "married_separately": 201775, "head_of_household": 201750 },
-    "phaseInEnd": { "single": 276750, "married_jointly": 553500, "married_separately": 276775, "head_of_household": 276750 },
+    "threshold": {
+      "single": 201750,
+      "married_jointly": 403500,
+      "married_separately": 201775,
+      "head_of_household": 201750
+    },
+    "phaseInEnd": {
+      "single": 276750,
+      "married_jointly": 553500,
+      "married_separately": 276775,
+      "head_of_household": 276750
+    },
     "minimumDeduction": 400,
     "minimumQbi": 1000
+  },
+  "overtimeDeduction": {
+    "_comment": "No tax on overtime (P.L. 119-21, tax years 2025–2028). Only the FLSA-required premium (the 'half' of time-and-a-half) qualifies. Married filing separately can't claim it. Schedule 1-A (2025) Part III; IRS overtime Q&A. Verified 2026-10-10.",
+    "firstYear": 2025,
+    "lastYear": 2028,
+    "cap": {
+      "single": 12500,
+      "married_jointly": 25000,
+      "married_separately": 0,
+      "head_of_household": 12500
+    },
+    "phaseOutStart": {
+      "single": 150000,
+      "married_jointly": 300000,
+      "married_separately": 0,
+      "head_of_household": 150000
+    },
+    "reductionPerThousand": 100
   }
 }

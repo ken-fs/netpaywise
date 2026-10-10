@@ -14,6 +14,8 @@ const TOOLS = [
   { href: "/paycheck-calculator/", name: "Paycheck calculator", sub: "Your take-home pay after federal tax and FICA", feature: true },
   { href: "/1099-tax-calculator/", name: "1099 tax calculator", sub: "Self-employment + income tax, per quarter" },
   { href: "/bonus-tax-calculator/", name: "Bonus tax", sub: "What's left after the 22% withholding" },
+  { href: "/no-tax-on-overtime-calculator/", name: "No tax on overtime", sub: "What the new deduction saves you" },
+  { href: "/overtime-calculator/", name: "Overtime pay", sub: "Time and a half or double time" },
   { href: "/salary-to-hourly/", name: "Salary and hourly", sub: "Convert either direction" },
 ];
 

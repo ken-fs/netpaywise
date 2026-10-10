@@ -41,7 +41,10 @@ export function OvertimeCalculator() {
           <div className="line take"><dt>Effective hourly</dt><dd>{usd2(r.effectiveHourly)}</dd></div>
         </dl>
         <div className="rate-note money">~{usd(r.total * 52)}/yr at this pace</div>
-        <p className="disclaimer">Gross pay, before taxes. Overtime rules vary by state and job.</p>
+        <p className="disclaimer">
+          Gross pay, before taxes. Overtime rules vary by state and job. The extra half may be
+          deductible: <a href="/no-tax-on-overtime-calculator/">see what it saves</a>.
+        </p>
       </aside>
     </div>
   );

@@ -49,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="/paycheck-calculator/">Paycheck</a>
             <a href="/1099-tax-calculator/">1099</a>
             <a href="/bonus-tax-calculator/">Bonus</a>
+            <a href="/overtime-calculator/">Overtime</a>
           </nav>
         </header>
         <main>{children}</main>

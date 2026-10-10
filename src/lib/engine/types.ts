@@ -40,6 +40,14 @@ export interface FederalConfig {
     minimumDeduction: number;
     minimumQbi: number;
   };
+  /** "No tax on overtime" deduction (Schedule 1-A Part III). */
+  overtimeDeduction: {
+    firstYear: number;
+    lastYear: number;
+    cap: Record<FilingStatus, number>;
+    phaseOutStart: Record<FilingStatus, number>;
+    reductionPerThousand: number;
+  };
 }
 
 export interface StateConfig {

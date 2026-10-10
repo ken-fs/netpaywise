@@ -340,6 +340,38 @@ export function bonusAggregate(
   return { regularWithholding, combinedWithholding, federal: round2(combinedWithholding - regularWithholding) };
 }
 
+export interface OvertimeDeductionResult {
+  /** The FLSA premium: the extra half-time on overtime hours. */
+  qualifiedOvertime: number;
+  deduction: number;
+  taxWithout: number;
+  taxWith: number;
+  taxSaved: number;
+}
+
+/**
+ * Schedule 1-A Part III: deduct the FLSA overtime premium, capped, then cut by $100 for every
+ * full $1,000 of MAGI over the threshold. It lowers income tax only, not Social Security or Medicare.
+ */
+export function noTaxOnOvertime(
+  qualifiedOvertime: number,
+  magi: number,
+  filingStatus: FilingStatus,
+  federal: FederalConfig,
+): OvertimeDeductionResult {
+  const od = federal.overtimeDeduction;
+  const q = Math.max(0, round2(qualifiedOvertime));
+  const inYear = federal.taxYear >= od.firstYear && federal.taxYear <= od.lastYear;
+  const capped = inYear ? Math.min(q, od.cap[filingStatus]) : 0;
+  const over = Math.max(0, magi - od.phaseOutStart[filingStatus]);
+  const deduction = Math.max(0, capped - Math.floor(over / 1000) * od.reductionPerThousand);
+  const std = federal.standardDeduction[filingStatus];
+  const brackets = federal.brackets[filingStatus];
+  const taxWithout = taxFromBrackets(Math.max(0, magi - std), brackets);
+  const taxWith = taxFromBrackets(Math.max(0, magi - std - deduction), brackets);
+  return { qualifiedOvertime: q, deduction, taxWithout, taxWith, taxSaved: round2(taxWithout - taxWith) };
+}
+
 export interface WithholdingResult {
   estimatedAnnualTax: number;
   annualWithheld: number;

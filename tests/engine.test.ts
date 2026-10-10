@@ -22,6 +22,7 @@ import {
   overtimePay,
   bonusAfterTax,
   bonusAggregate,
+  noTaxOnOvertime,
   withholdingCheck,
   hourlyToAnnual,
   annualToHourly,
@@ -206,6 +207,23 @@ check("aggregate bonus method: $5k on a $2.5k biweekly single check", () => {
   near(r.regularWithholding, 216.15, 0.01);
   near(r.combinedWithholding, 1366.69, 0.01);
   near(r.federal, 1150.54, 0.02);
+});
+check("no tax on overtime: $25/hr, 8 OT h × 50 wk, single", () => {
+  // premium 0.5 × 25 × 400 = 5,000; wages 52,000 + 15,000 = 67,000
+  // taxable 50,900 → 5,800 + 22% × 500 = 5,910; with deduction 45,900 → 1,240 + 12% × 33,500 = 5,260
+  const r = noTaxOnOvertime(5000, 67000, "single", federal);
+  near(r.deduction, 5000);
+  near(r.taxWithout, 5910, 0.01);
+  near(r.taxWith, 5260, 0.01);
+  near(r.taxSaved, 650, 0.01);
+});
+check("no tax on overtime: cap, $100 per full $1,000 phase-out, MFS excluded", () => {
+  assert.equal(noTaxOnOvertime(20000, 100000, "single", federal).deduction, 12500);
+  // MAGI 160,999 → 10 full thousands over → −1,000
+  assert.equal(noTaxOnOvertime(20000, 160999, "single", federal).deduction, 11500);
+  assert.equal(noTaxOnOvertime(20000, 400000, "single", federal).deduction, 0);
+  assert.equal(noTaxOnOvertime(30000, 300500, "married_jointly", federal).deduction, 25000);
+  assert.equal(noTaxOnOvertime(5000, 60000, "married_separately", federal).deduction, 0);
 });
 check("bonus over $1M: 37% on the excess", () => {
   near(bonusAfterTax(1200000, federal).federal, 220000 + 74000);
