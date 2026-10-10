@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { AnalyticsConsent } from "@/components/AnalyticsConsent";
 
 // Fonts are self-hosted (src/fonts, OFL). next/font/google downloads them during the build,
 // and when that download flakes on Cloudflare's builders the whole build fails
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </nav>
           <div>© {new Date().getFullYear()} takehomepal · Estimates, not advice.</div>
         </footer>
+        <AnalyticsConsent />
       </body>
     </html>
   );

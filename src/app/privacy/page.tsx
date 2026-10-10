@@ -27,9 +27,11 @@ export default function Privacy() {
 
         <h2>Analytics</h2>
         <p>
-          We use privacy-friendly, aggregate analytics to see which calculators people use
-          and where pages break. It doesn't identify you and doesn't track you across other
-          sites.
+          We use Google Analytics to count which pages and calculators get used. It only loads
+          if you click &ldquo;Allow analytics&rdquo; in the banner; until then no Google script
+          runs and no analytics cookies are set. Google signals and ad personalization are
+          turned off, and it never sees what you type into a calculator. To change your mind,
+          clear this site&apos;s data in your browser and the banner will ask again.
         </p>
 
         <h2>Advertising</h2>
@@ -44,8 +46,9 @@ export default function Privacy() {
 
         <h2>Cookies</h2>
         <p>
-          We use only what's needed to run the site and, where present, the advertising
-          cookies described above. You can block cookies in your browser settings.
+          We store your analytics choice in your browser. With your consent, Google Analytics
+          sets its own cookies; where ads are shown, the advertising cookies described above
+          apply. You can block cookies in your browser settings.
         </p>
 
         <h2>Changes</h2>
