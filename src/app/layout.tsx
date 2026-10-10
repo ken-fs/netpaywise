@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AnalyticsConsent } from "@/components/AnalyticsConsent";
@@ -37,6 +37,8 @@ export const metadata: Metadata = {
   description:
     "Free US paycheck, bonus and 1099 tax calculators. See what actually lands in your bank account — no signup, no email.",
 };
+
+export const viewport: Viewport = { themeColor: "#14312a" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
