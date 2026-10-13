@@ -2,7 +2,7 @@
 import "server-only";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { FederalConfig, StateConfig } from "./engine/types";
+import type { CaWithholdingConfig, FederalConfig, StateConfig, SupplementalState } from "./engine/types";
 
 const TAX_YEAR = 2026;
 const root = (p: string) => resolve(process.cwd(), p);
@@ -16,8 +16,18 @@ export interface StateMeta {
   noIncomeTax?: boolean;
 }
 
-export function loadFederal(): FederalConfig {
-  return readJson(`data/tax/us/${TAX_YEAR}/federal.json`) as FederalConfig;
+export function loadFederal(year = TAX_YEAR): FederalConfig {
+  return readJson(`data/tax/us/${year}/federal.json`) as FederalConfig;
+}
+
+/** California paycheck withholding (EDD Method B) + SDI. */
+export function loadCaWithholding(): CaWithholdingConfig {
+  return readJson(`data/tax/us/${TAX_YEAR}/withholding-ca.json`) as CaWithholdingConfig;
+}
+
+/** States with a state bonus page (verified supplemental withholding rates). */
+export function loadSupplementalStates(): SupplementalState[] {
+  return readJson(`data/tax/us/${TAX_YEAR}/supplemental-states.json`).states as SupplementalState[];
 }
 
 export function loadStateMeta(): StateMeta[] {

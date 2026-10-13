@@ -12,19 +12,62 @@ const FILING: { v: FilingStatus; label: string }[] = [
   { v: "head_of_household", label: "Head of household" },
 ];
 
-export function SETaxCalculator({ federal, defaultProfit = 60000 }: { federal: FederalConfig; defaultProfit?: number }) {
-  const [profit, setProfit] = useState(defaultProfit);
+const money = (n: number) => Math.max(0, Number(n) || 0);
+
+/** `years` newest first; the first one is the default. */
+export function SETaxCalculator({ years, defaultIncome = 75000 }: { years: FederalConfig[]; defaultIncome?: number }) {
+  const [year, setYear] = useState(years[0].taxYear);
+  const [income, setIncome] = useState(defaultIncome);
+  const [expenses, setExpenses] = useState(15000);
+  const [adjustments, setAdjustments] = useState(0);
+  const [itemized, setItemized] = useState(0);
   const [filing, setFiling] = useState<FilingStatus>("single");
-  const r = useMemo(() => freelanceTax(profit, filing, federal), [profit, filing, federal]);
+
+  const federal = years.find((y) => y.taxYear === year) ?? years[0];
+  const profit = Math.max(0, income - expenses);
+  const r = useMemo(
+    () => freelanceTax(profit, filing, federal, adjustments, itemized),
+    [profit, filing, federal, adjustments, itemized],
+  );
+  const current = federal.taxYear === years[0].taxYear;
+  const std = federal.standardDeduction[filing];
 
   return (
     <div className="calc">
       <div className="calc-inputs">
+        {years.length > 1 && (
+          <div className="seg" role="tablist" aria-label="Tax year">
+            {years.map((y) => (
+              <button key={y.taxYear} role="tab" aria-selected={year === y.taxYear} className={year === y.taxYear ? "on" : ""} onClick={() => setYear(y.taxYear)}>{y.taxYear}</button>
+            ))}
+          </div>
+        )}
         <label className="field">
-          <span>Net 1099 profit <em>(income − business expenses, yearly)</em></span>
+          <span>1099 income <em>(everything clients paid you, yearly)</em></span>
           <div className="money-input"><span aria-hidden>$</span>
-            <input type="number" min={0} inputMode="decimal" value={profit}
-              onChange={(e) => setProfit(Math.max(0, Number(e.target.value) || 0))} />
+            <input type="number" min={0} inputMode="decimal" value={income}
+              onChange={(e) => setIncome(money(Number(e.target.value)))} />
+          </div>
+        </label>
+        <label className="field">
+          <span>Business expenses <em>(software, gear, mileage, home office…)</em></span>
+          <div className="money-input"><span aria-hidden>$</span>
+            <input type="number" min={0} inputMode="decimal" value={expenses}
+              onChange={(e) => setExpenses(money(Number(e.target.value)))} />
+          </div>
+        </label>
+        <label className="field">
+          <span>Retirement + health insurance <em>(SEP-IRA, solo 401(k), self-employed premiums)</em></span>
+          <div className="money-input"><span aria-hidden>$</span>
+            <input type="number" min={0} inputMode="decimal" value={adjustments}
+              onChange={(e) => setAdjustments(money(Number(e.target.value)))} />
+          </div>
+        </label>
+        <label className="field">
+          <span>Itemized deductions <em>(only if more than the {usd(std)} standard deduction)</em></span>
+          <div className="money-input"><span aria-hidden>$</span>
+            <input type="number" min={0} inputMode="decimal" value={itemized}
+              onChange={(e) => setItemized(money(Number(e.target.value)))} />
           </div>
         </label>
         <label className="field">
@@ -34,29 +77,31 @@ export function SETaxCalculator({ federal, defaultProfit = 60000 }: { federal: F
           </select>
         </label>
         <p style={{ fontSize: "0.9rem", color: "var(--slate)" }}>
-          Two federal taxes hit 1099 income: self-employment tax (15.3% on 92.35% of
-          profit) and regular income tax on what's left after your deductions.
+          Expenses cut both taxes. Retirement and health insurance only cut income tax —
+          self-employment tax is still figured on your full profit.
         </p>
       </div>
 
       <aside className="stub calc-result" aria-live="polite">
-        <div className="stub-head"><span>SET ASIDE PER QUARTER</span><span>{federal.taxYear}</span></div>
+        <div className="stub-head"><span>{current ? "SET ASIDE PER QUARTER" : "FEDERAL TAX FOR THE YEAR"}</span><span>{federal.taxYear}</span></div>
         <div className="headline-num money">
           <span className="cur">$</span>
-          {r.quarterly.toLocaleString("en-US", { maximumFractionDigits: 0 })}
+          {(current ? r.quarterly : r.totalTax).toLocaleString("en-US", { maximumFractionDigits: 0 })}
         </div>
         <dl className="stub-lines money">
+          <div className="line"><dt>Net profit</dt><dd>{usd(profit)}</dd></div>
           <div className="line"><dt>Self-employment tax</dt><dd>{usd(r.se.seTax)}</dd></div>
           <div className="line"><dt>Federal income tax</dt><dd>{usd(r.federalIncomeTax)}</dd></div>
           <div className="line"><dt>QBI deduction used</dt><dd>{usd(r.qbiDeduction)}</dd></div>
+          <div className="line"><dt>Taxable income</dt><dd>{usd(r.taxableIncome)}</dd></div>
           <div className="line"><dt>Total federal tax</dt><dd>{usd(r.totalTax)}</dd></div>
+          {current && <div className="line"><dt>Per quarter</dt><dd>{usd(r.quarterly)}</dd></div>}
           <div className="line take"><dt>You keep</dt><dd>{usd(r.keep)}</dd></div>
         </dl>
         <div className="rate-note money">{r.effectiveRate.toFixed(1)}% of your profit goes to federal tax</div>
         <p className="disclaimer">
-          Federal only, assuming 1099 is your only income, the standard deduction, no
-          employees, and no credits. State income tax is extra in most states. Estimate
-          for the {federal.taxYear} tax year, not tax advice.
+          Federal only, assuming 1099 is your only income, no employees and no credits. State income
+          tax is extra in most states. Estimate for the {federal.taxYear} tax year, not tax advice.
         </p>
       </aside>
     </div>

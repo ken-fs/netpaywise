@@ -27,7 +27,7 @@ export default function BonusTax() {
         { q: "What is the supplemental tax rate?", a: "It's the flat rate the IRS lets employers use for pay outside your regular wages: bonuses, commissions, severance, back pay. It's a withholding shortcut, not a separate tax." },
         { q: "Why was so much taken out of my bonus?", a: "If your employer added the bonus to a regular paycheck, payroll software treats that big check as if you earned it every pay period. That pushes it into a higher bracket for withholding. Switch the calculator to “Added to a paycheck” to see the difference." },
         { q: "Do I get some of it back?", a: "Maybe. Withholding isn't your final tax. At filing, the bonus is just more income taxed at your real rate. If your top bracket is 12%, you'll likely get some back. At 24% or higher, the 22% may come up a little short." },
-        { q: "Do states tax bonuses?", a: "Nine states don't tax wages at all: Texas, Florida, Washington, Tennessee, Nevada, South Dakota, Wyoming, Alaska and New Hampshire. Most others withhold bonuses at their own flat rate. Pick “Another state” and enter it." },
+        { q: "Do states tax bonuses?", a: "Nine states don't tax wages at all: Texas, Florida, Washington, Tennessee, Nevada, South Dakota, Wyoming, Alaska and New Hampshire. Most others withhold bonuses at their own flat rate — New York's is 11.7%, plus 4.25% more in New York City. Pick “Another state” and enter it, or use the New York or Texas versions." },
         { q: "What if my bonus is over $1 million?", a: `Everything above $1 million in supplemental wages for the year must be withheld at ${sw.highRate * 100}%. The calculator applies that automatically.` },
       ]}
       prose={
@@ -46,6 +46,11 @@ export default function BonusTax() {
             Your bonus is still just income. When you file, it&apos;s added to your salary and taxed at
             your real rate, and the withholding is credited against that. A bonus that looked
             brutal on the pay stub often comes back partly as a refund.
+          </p>
+          <p>
+            By state: the <a href="/bonus-tax-calculator/ny/">New York bonus tax calculator</a> adds
+            the state&apos;s 11.7% bonus rate, NYC or Yonkers tax and Paid Family Leave. The{" "}
+            <a href="/bonus-tax-calculator/tx/">Texas bonus tax calculator</a> shows the no-state-tax case.
           </p>
           <p>
             Want the full picture of your regular pay? Try the{" "}

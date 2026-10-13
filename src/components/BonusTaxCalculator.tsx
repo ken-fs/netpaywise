@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { FederalConfig, FilingStatus, PayFrequency } from "@/lib/engine/types";
+import type { FederalConfig, FilingStatus, PayFrequency, SupplementalState } from "@/lib/engine/types";
 import { PERIODS_PER_YEAR } from "@/lib/engine/types";
 import { bonusAfterTax, bonusAggregate } from "@/lib/engine/tax";
 import { usd } from "@/lib/format";
@@ -21,7 +21,10 @@ const FREQ: { v: Exclude<PayFrequency, "annual">; label: string }[] = [
 
 type Method = "flat" | "aggregate";
 
-export function BonusTaxCalculator({ federal }: { federal: FederalConfig }) {
+const pctLabel = (r: number) => `${+(r * 100).toFixed(5)}%`;
+
+/** `state` locks the calculator to one state's bonus withholding (state bonus pages). */
+export function BonusTaxCalculator({ federal, state }: { federal: FederalConfig; state?: SupplementalState }) {
   const [bonus, setBonus] = useState(5000);
   const [method, setMethod] = useState<Method>("flat");
   const [salary, setSalary] = useState(65000);
@@ -29,17 +32,26 @@ export function BonusTaxCalculator({ federal }: { federal: FederalConfig }) {
   const [filing, setFiling] = useState<FilingStatus>("single");
   const [stateMode, setStateMode] = useState<"none" | "rate">("none");
   const [stateRate, setStateRate] = useState(0);
+  const [localId, setLocalId] = useState("");
 
   const periods = PERIODS_PER_YEAR[freq];
-  const rate = stateMode === "rate" ? stateRate : 0;
+  const local = state?.locals.find((l) => l.id === localId);
+  const rate = state ? state.rate * 100 : stateMode === "rate" ? stateRate : 0;
   const flat = useMemo(() => bonusAfterTax(bonus, federal, rate), [bonus, federal, rate]);
+  const localTax = Math.round(flat.bonus * (local?.rate ?? 0) * 100) / 100;
+  const payroll = (state?.payroll ?? []).map((p) => ({
+    name: p.name,
+    amount: Math.round(Math.min(flat.bonus * p.rate, p.annualMax ?? Infinity) * 100) / 100,
+    rate: p.rate,
+  }));
+  const extra = localTax + payroll.reduce((a, p) => a + p.amount, 0);
   const agg = useMemo(
     () => bonusAggregate(bonus, salary / periods, periods, filing, federal),
     [bonus, salary, periods, filing, federal],
   );
 
   const fed = method === "flat" ? flat.federal : agg.federal;
-  const totalWithheld = fed + flat.socialSecurity + flat.medicare + flat.state;
+  const totalWithheld = fed + flat.socialSecurity + flat.medicare + flat.state + extra;
   const net = flat.bonus - totalWithheld;
   const sw = federal.supplementalWithholding;
 
@@ -79,13 +91,23 @@ export function BonusTaxCalculator({ federal }: { federal: FederalConfig }) {
           </>
         )}
 
-        <label className="field"><span>State</span>
-          <select value={stateMode} onChange={(e) => setStateMode(e.target.value as "none" | "rate")}>
-            <option value="none">No state income tax (TX, FL, WA, TN, NV, SD, WY, AK, NH)</option>
-            <option value="rate">Another state — enter its bonus rate</option>
-          </select>
-        </label>
-        {stateMode === "rate" && (
+        {!state && (
+          <label className="field"><span>State</span>
+            <select value={stateMode} onChange={(e) => setStateMode(e.target.value as "none" | "rate")}>
+              <option value="none">No state income tax (TX, FL, WA, TN, NV, SD, WY, AK, NH)</option>
+              <option value="rate">Another state — enter its bonus rate</option>
+            </select>
+          </label>
+        )}
+        {state && state.locals.length > 0 && (
+          <label className="field"><span>Where do you live?</span>
+            <select value={localId} onChange={(e) => setLocalId(e.target.value)}>
+              <option value="">Elsewhere in {state.name}</option>
+              {state.locals.map((l) => <option key={l.id} value={l.id}>{l.label}</option>)}
+            </select>
+          </label>
+        )}
+        {!state && stateMode === "rate" && (
           <label className="field"><span>State bonus withholding rate <em>(%)</em></span>
             <input type="number" min={0} step={0.1} value={stateRate}
               onChange={(e) => setStateRate(Math.max(0, Number(e.target.value) || 0))} />
@@ -106,15 +128,20 @@ export function BonusTaxCalculator({ federal }: { federal: FederalConfig }) {
           <div className="line"><dt>Federal ({method === "flat" ? `${sw.rate * 100}% flat` : "aggregate"})</dt><dd>−{usd(fed)}</dd></div>
           <div className="line"><dt>Social Security (6.2%)</dt><dd>−{usd(flat.socialSecurity)}</dd></div>
           <div className="line"><dt>Medicare (1.45%)</dt><dd>−{usd(flat.medicare)}</dd></div>
-          {flat.state > 0 && <div className="line"><dt>State</dt><dd>−{usd(flat.state)}</dd></div>}
+          {state && state.rate === 0 && <div className="line"><dt>{state.name} income tax</dt><dd>$0</dd></div>}
+          {flat.state > 0 && <div className="line"><dt>{state ? `${state.name} (${pctLabel(state.rate)})` : "State"}</dt><dd>−{usd(flat.state)}</dd></div>}
+          {local && <div className="line"><dt>{local.id === "nyc" ? "NYC" : "Yonkers"} ({pctLabel(local.rate)})</dt><dd>−{usd(localTax)}</dd></div>}
+          {payroll.filter((p) => p.amount > 0).map((p) => <div className="line" key={p.name}><dt>{p.name} ({pctLabel(p.rate)})</dt><dd>−{usd(p.amount)}</dd></div>)}
           <div className="line take"><dt>You keep</dt><dd>{usd(net)}</dd></div>
         </dl>
         <div className="rate-note money">
-          Flat 22%: {usd(flat.bonus - flat.totalWithheld)} · Aggregate: {usd(flat.bonus - (agg.federal + flat.socialSecurity + flat.medicare + flat.state))}
+          Flat 22%: {usd(flat.bonus - flat.totalWithheld - extra)} · Aggregate: {usd(flat.bonus - (agg.federal + flat.socialSecurity + flat.medicare + flat.state + extra))}
         </div>
         <p className="disclaimer">
           Withholding estimate for {federal.taxYear}, not your final tax. Assumes you haven&apos;t passed the
           Social Security wage cap this year and a W-4 with no extra adjustments.
+          {state && state.rate > 0 ? ` The ${state.name} part uses the state's flat bonus rate either way.` : ""}
+          {payroll.some((p) => p.amount > 0) ? " Paid Family Leave stops once your year's deductions hit the annual cap." : ""}
         </p>
       </aside>
     </div>

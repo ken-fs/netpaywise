@@ -1,0 +1,49 @@
+{
+  "_comment": "California 2026 employer withholding (EDD Method B, annual payroll period, Tables 1, 3, 4, 5-7) and the 2026 SDI rate. This is what comes out of a paycheck, not the final FTB tax. Verified 2026-10-13.",
+  "taxYear": 2026,
+  "source": "EDD 2026 Withholding Schedules - Method B (edd.ca.gov/siteassets/files/pdf_pub_ctr/26methb.pdf); EDD Tax-Rated Employers (SDI 1.3%, no wage limit)",
+  "verified": true,
+  "verifiedOn": "2026-10-13",
+  "lowIncomeExemption": { "single": 18896, "married_jointly": 37791, "married_separately": 18896, "head_of_household": 37791 },
+  "standardDeduction": { "single": 5706, "married_jointly": 11412, "married_separately": 5706, "head_of_household": 11412 },
+  "allowanceCredit": 168.30,
+  "brackets": {
+    "single": [
+      { "upTo": 11079, "rate": 0.011 },
+      { "upTo": 26264, "rate": 0.022 },
+      { "upTo": 41452, "rate": 0.044 },
+      { "upTo": 57542, "rate": 0.066 },
+      { "upTo": 72724, "rate": 0.088 },
+      { "upTo": 371479, "rate": 0.1023 },
+      { "upTo": 445771, "rate": 0.1133 },
+      { "upTo": 742953, "rate": 0.1243 },
+      { "upTo": 1000000, "rate": 0.1353 },
+      { "upTo": null, "rate": 0.1463 }
+    ],
+    "married_jointly": [
+      { "upTo": 22158, "rate": 0.011 },
+      { "upTo": 52528, "rate": 0.022 },
+      { "upTo": 82904, "rate": 0.044 },
+      { "upTo": 115084, "rate": 0.066 },
+      { "upTo": 145448, "rate": 0.088 },
+      { "upTo": 742958, "rate": 0.1023 },
+      { "upTo": 891542, "rate": 0.1133 },
+      { "upTo": 1000000, "rate": 0.1243 },
+      { "upTo": 1485906, "rate": 0.1353 },
+      { "upTo": null, "rate": 0.1463 }
+    ],
+    "head_of_household": [
+      { "upTo": 22173, "rate": 0.011 },
+      { "upTo": 52530, "rate": 0.022 },
+      { "upTo": 67716, "rate": 0.044 },
+      { "upTo": 83805, "rate": 0.066 },
+      { "upTo": 98990, "rate": 0.088 },
+      { "upTo": 505208, "rate": 0.1023 },
+      { "upTo": 606251, "rate": 0.1133 },
+      { "upTo": 1000000, "rate": 0.1243 },
+      { "upTo": 1010417, "rate": 0.1353 },
+      { "upTo": null, "rate": 0.1463 }
+    ]
+  },
+  "sdiRate": 0.013
+}

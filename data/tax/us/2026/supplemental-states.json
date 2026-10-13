@@ -1,0 +1,29 @@
+{
+  "_comment": "State bonus (supplemental wage) withholding for the state bonus pages. NY rates: NYS-50-T-NYS, NYS-50-T-NYC and NYS-50-T-Y (1/26), effective January 1, 2026. NY Paid Family Leave 2026: 0.432% of gross wages, max $411.91 a year (paidfamilyleave.ny.gov). Texas has no income tax and no state payroll premium on employees. Verified 2026-10-13.",
+  "taxYear": 2026,
+  "verified": true,
+  "verifiedOn": "2026-10-13",
+  "states": [
+    {
+      "slug": "ny",
+      "abbr": "NY",
+      "name": "New York",
+      "rate": 0.117,
+      "rateSource": "NYS-50-T-NYS (1/26)",
+      "locals": [
+        { "id": "nyc", "label": "New York City resident", "rate": 0.0425 },
+        { "id": "yonkers", "label": "Yonkers resident", "rate": 0.0195975 },
+        { "id": "yonkers_nr", "label": "Work in Yonkers, live elsewhere", "rate": 0.005 }
+      ],
+      "payroll": [{ "name": "NY Paid Family Leave", "rate": 0.00432, "annualMax": 411.91 }]
+    },
+    {
+      "slug": "tx",
+      "abbr": "TX",
+      "name": "Texas",
+      "rate": 0,
+      "locals": [],
+      "payroll": []
+    }
+  ]
+}

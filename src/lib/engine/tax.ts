@@ -6,6 +6,7 @@
  */
 import type {
   Bracket,
+  CaWithholdingConfig,
   FederalConfig,
   FilingStatus,
   PayFrequency,
@@ -251,11 +252,20 @@ export function freelanceTax(
   netProfit: number,
   filingStatus: FilingStatus,
   federal: FederalConfig,
+  /**
+   * Above-the-line deductions tied to the business (SEP-IRA / solo 401(k), self-employed
+   * health insurance). They lower income tax and QBI, not SE tax.
+   */
+  adjustments = 0,
+  /** Itemized deductions; used only when bigger than the standard deduction. */
+  itemized = 0,
 ): FreelanceTaxResult {
   const se = selfEmploymentTax(netProfit, federal, filingStatus);
-  const agi = Math.max(0, netProfit - se.deductibleHalf);
-  const taxableBeforeQbi = Math.max(0, agi - federal.standardDeduction[filingStatus]);
-  const qbi = qbiDeduction(netProfit - se.deductibleHalf, taxableBeforeQbi, filingStatus, federal);
+  const adj = Math.max(0, adjustments);
+  const agi = Math.max(0, netProfit - se.deductibleHalf - adj);
+  const deduction = Math.max(federal.standardDeduction[filingStatus], Math.max(0, itemized));
+  const taxableBeforeQbi = Math.max(0, agi - deduction);
+  const qbi = qbiDeduction(netProfit - se.deductibleHalf - adj, taxableBeforeQbi, filingStatus, federal);
   const taxableIncome = round2(Math.max(0, taxableBeforeQbi - qbi));
   const incomeTax = taxFromBrackets(taxableIncome, federal.brackets[filingStatus]);
   const totalTax = round2(se.seTax + incomeTax);
@@ -290,6 +300,105 @@ export function overtimePay(
   const total = round2(regularPay + otPay);
   const hours = Math.max(0, regularHours) + Math.max(0, overtimeHours);
   return { regularPay, overtimePay: otPay, total, effectiveHourly: hours > 0 ? round2(total / hours) : 0 };
+}
+
+export interface CaOvertimeHours {
+  regular: number;
+  overtime: number;
+  doubleTime: number;
+  /** True when all seven days were worked, so the seventh-day rule kicked in. */
+  seventhDay: boolean;
+  /** Hours over 40 in the week: the only part federal law (FLSA) requires. */
+  flsaOvertime: number;
+}
+
+/**
+ * California Labor Code §510 for one workweek. Each day: first 8 hours regular, 8–12 at 1.5×,
+ * over 12 at 2×. On the seventh straight day worked: first 8 at 1.5×, the rest at 2×. Then any
+ * straight-time hours past 40 for the week move to 1.5× (no double counting).
+ */
+export function caOvertimeHours(days: number[]): CaOvertimeHours {
+  const h = days.slice(0, 7).map((d) => Math.min(24, Math.max(0, d || 0)));
+  const seventhDay = h.length === 7 && h.every((d) => d > 0);
+  let regular = 0;
+  let overtime = 0;
+  let doubleTime = 0;
+  h.forEach((d, i) => {
+    if (seventhDay && i === 6) {
+      overtime += Math.min(d, 8);
+      doubleTime += Math.max(0, d - 8);
+      return;
+    }
+    const reg = Math.min(d, 8);
+    overtime += Math.max(0, Math.min(d, 12) - 8);
+    doubleTime += Math.max(0, d - 12);
+    const room = Math.max(0, 40 - regular);
+    regular += Math.min(reg, room);
+    overtime += Math.max(0, reg - room);
+  });
+  const total = h.reduce((a, b) => a + b, 0);
+  return { regular, overtime, doubleTime, seventhDay, flsaOvertime: Math.max(0, total - 40) };
+}
+
+/**
+ * California income tax withheld for a year of wages, EDD Method B: low-income exemption,
+ * standard deduction, rate table, minus the allowance credit. Prorate for a pay period.
+ */
+export function caWithholding(
+  annualWages: number,
+  filingStatus: FilingStatus,
+  cfg: CaWithholdingConfig,
+  allowances = filingStatus === "married_jointly" ? 2 : 1,
+): number {
+  if (annualWages <= cfg.lowIncomeExemption[filingStatus]) return 0;
+  const taxable = Math.max(0, annualWages - cfg.standardDeduction[filingStatus]);
+  const table = filingStatus === "married_jointly" || filingStatus === "head_of_household" ? filingStatus : "single";
+  const tax = taxFromBrackets(taxable, cfg.brackets[table]);
+  return round2(Math.max(0, tax - allowances * cfg.allowanceCredit));
+}
+
+export type WeeklyStateTax =
+  | { kind: "none" }
+  | { kind: "rate"; pct: number }
+  | { kind: "ca"; cfg: CaWithholdingConfig };
+
+export interface WeeklyTaxResult {
+  gross: number;
+  federal: number;
+  socialSecurity: number;
+  medicare: number;
+  state: number;
+  /** CA SDI or similar state payroll premium. */
+  statePayroll: number;
+  totalTax: number;
+  net: number;
+}
+
+/**
+ * Taxes withheld from one weekly check, as if every week paid the same: federal by the
+ * percentage method (annualized, standard deduction, no W-4 adjustments) plus FICA and state.
+ */
+export function weeklyPayTaxes(
+  weeklyGross: number,
+  filingStatus: FilingStatus,
+  federal: FederalConfig,
+  state: WeeklyStateTax = { kind: "none" },
+): WeeklyTaxResult {
+  const gross = Math.max(0, weeklyGross);
+  const annual = gross * 52;
+  const fed = round2(federalIncomeTax(annual, filingStatus, 0, federal).tax / 52);
+  const f = fica(annual, filingStatus, federal);
+  const ss = round2(f.socialSecurity / 52);
+  const med = round2(f.medicare / 52);
+  let st = 0;
+  let sp = 0;
+  if (state.kind === "rate") st = round2(gross * (Math.max(0, state.pct) / 100));
+  if (state.kind === "ca") {
+    st = round2(caWithholding(annual, filingStatus, state.cfg) / 52);
+    sp = round2(gross * state.cfg.sdiRate);
+  }
+  const totalTax = round2(fed + ss + med + st + sp);
+  return { gross, federal: fed, socialSecurity: ss, medicare: med, state: st, statePayroll: sp, totalTax, net: round2(gross - totalTax) };
 }
 
 export interface BonusResult {

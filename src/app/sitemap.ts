@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { statesWithData } from "@/lib/data";
+import { loadSupplementalStates, statesWithData } from "@/lib/data";
 import { AMOUNT_PAGES } from "@/lib/amounts";
 
 const BASE = "https://takehomepal.com";
@@ -10,6 +10,7 @@ const PATHS = [
   "/1099-tax-calculator/",
   "/bonus-tax-calculator/",
   "/overtime-calculator/",
+  "/overtime-calculator/california/",
   "/no-tax-on-overtime-calculator/",
   "/salary-to-hourly/",
   "/about/",
@@ -32,5 +33,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "yearly" as const,
     priority: 0.6,
   }));
-  return [...pages, ...states, ...amounts];
+  const bonusStates = loadSupplementalStates().map((s) => ({
+    url: `${BASE}/bonus-tax-calculator/${s.slug}/`,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+  return [...pages, ...states, ...bonusStates, ...amounts];
 }

@@ -74,3 +74,26 @@ export const PERIODS_PER_YEAR: Record<PayFrequency, number> = {
   biweekly: 26,
   weekly: 52,
 };
+
+/** California employer withholding (EDD Method B, annual payroll period) plus SDI. */
+export interface CaWithholdingConfig {
+  taxYear: number;
+  lowIncomeExemption: Record<FilingStatus, number>;
+  standardDeduction: Record<FilingStatus, number>;
+  /** Exemption allowance credit per allowance, annual. */
+  allowanceCredit: number;
+  /** Single and married filing separately use the single table. */
+  brackets: Record<"single" | "married_jointly" | "head_of_household", Bracket[]>;
+  sdiRate: number;
+}
+
+/** A state's bonus (supplemental wage) withholding, for the state bonus pages. */
+export interface SupplementalState {
+  slug: string;
+  abbr: string;
+  name: string;
+  rate: number;
+  rateSource?: string;
+  locals: { id: string; label: string; rate: number }[];
+  payroll: { name: string; rate: number; annualMax?: number }[];
+}

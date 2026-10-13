@@ -120,8 +120,13 @@ export default async function StatePaycheck({ params }: { params: Promise<{ stat
           <p>
             Freelancing on the side? The <a href="/1099-tax-calculator/">1099 tax calculator</a> shows
             what to set aside each quarter. Got a bonus? The{" "}
-            <a href="/bonus-tax-calculator/">bonus tax calculator</a> shows what&apos;s left after
-            the flat 22% withholding.
+            {meta.abbr === "TX" ? (
+              <a href="/bonus-tax-calculator/tx/">Texas bonus tax calculator</a>
+            ) : (
+              <a href="/bonus-tax-calculator/">bonus tax calculator</a>
+            )}{" "}
+            shows what&apos;s left after the flat 22% withholding. Working extra hours? The{" "}
+            <a href="/overtime-calculator/">overtime calculator</a> shows overtime pay after taxes.
           </p>
           <h2>Other states with no income tax</h2>
           <p>

@@ -1,0 +1,191 @@
+{
+  "_comment": "US federal tax config for tax year 2025, as amended by the One Big Beautiful Bill (P.L. 119-21). Brackets and QBI thresholds: IRS Rev. Proc. 2024-40. Standard deduction: 2025 Form 1040 (OBBB raised it to $15,750 / $31,500 / $23,625). Social Security wage base and supplemental withholding: IRS Publication 15 (2025). The $400 minimum QBI deduction starts in 2026, so it's off here. Verified 2026-10-13.",
+  "taxYear": 2025,
+  "source": "IRS Rev. Proc. 2024-40; 2025 Form 1040; IRS Publication 15 (2025); Schedule 1-A (Form 1040)",
+  "verified": true,
+  "verifiedOn": "2026-10-13",
+  "standardDeduction": {
+    "single": 15750,
+    "married_jointly": 31500,
+    "married_separately": 15750,
+    "head_of_household": 23625
+  },
+  "brackets": {
+    "single": [
+      {
+        "upTo": 11925,
+        "rate": 0.1
+      },
+      {
+        "upTo": 48475,
+        "rate": 0.12
+      },
+      {
+        "upTo": 103350,
+        "rate": 0.22
+      },
+      {
+        "upTo": 197300,
+        "rate": 0.24
+      },
+      {
+        "upTo": 250525,
+        "rate": 0.32
+      },
+      {
+        "upTo": 626350,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
+    ],
+    "married_jointly": [
+      {
+        "upTo": 23850,
+        "rate": 0.1
+      },
+      {
+        "upTo": 96950,
+        "rate": 0.12
+      },
+      {
+        "upTo": 206700,
+        "rate": 0.22
+      },
+      {
+        "upTo": 394600,
+        "rate": 0.24
+      },
+      {
+        "upTo": 501050,
+        "rate": 0.32
+      },
+      {
+        "upTo": 751600,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
+    ],
+    "married_separately": [
+      {
+        "upTo": 11925,
+        "rate": 0.1
+      },
+      {
+        "upTo": 48475,
+        "rate": 0.12
+      },
+      {
+        "upTo": 103350,
+        "rate": 0.22
+      },
+      {
+        "upTo": 197300,
+        "rate": 0.24
+      },
+      {
+        "upTo": 250525,
+        "rate": 0.32
+      },
+      {
+        "upTo": 375800,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
+    ],
+    "head_of_household": [
+      {
+        "upTo": 17000,
+        "rate": 0.1
+      },
+      {
+        "upTo": 64850,
+        "rate": 0.12
+      },
+      {
+        "upTo": 103350,
+        "rate": 0.22
+      },
+      {
+        "upTo": 197300,
+        "rate": 0.24
+      },
+      {
+        "upTo": 250500,
+        "rate": 0.32
+      },
+      {
+        "upTo": 626350,
+        "rate": 0.35
+      },
+      {
+        "upTo": null,
+        "rate": 0.37
+      }
+    ]
+  },
+  "fica": {
+    "socialSecurity": {
+      "rate": 0.062,
+      "wageBase": 176100
+    },
+    "medicare": {
+      "rate": 0.0145,
+      "additionalRate": 0.009,
+      "additionalThreshold": {
+        "single": 200000,
+        "married_jointly": 250000,
+        "married_separately": 125000,
+        "head_of_household": 200000
+      }
+    }
+  },
+  "supplementalWithholding": {
+    "rate": 0.22,
+    "highRate": 0.37,
+    "highThreshold": 1000000
+  },
+  "qbi": {
+    "rate": 0.2,
+    "threshold": {
+      "single": 197300,
+      "married_jointly": 394600,
+      "married_separately": 197300,
+      "head_of_household": 197300
+    },
+    "phaseInEnd": {
+      "single": 247300,
+      "married_jointly": 494600,
+      "married_separately": 247300,
+      "head_of_household": 247300
+    },
+    "minimumDeduction": 0,
+    "minimumQbi": 0
+  },
+  "overtimeDeduction": {
+    "_comment": "No tax on overtime (P.L. 119-21, tax years 2025–2028). Only the FLSA-required premium (the 'half' of time-and-a-half) qualifies. Married filing separately can't claim it. Schedule 1-A (2025) Part III; IRS overtime Q&A. Verified 2026-10-10.",
+    "firstYear": 2025,
+    "lastYear": 2028,
+    "cap": {
+      "single": 12500,
+      "married_jointly": 25000,
+      "married_separately": 0,
+      "head_of_household": 12500
+    },
+    "phaseOutStart": {
+      "single": 150000,
+      "married_jointly": 300000,
+      "married_separately": 0,
+      "head_of_household": 150000
+    },
+    "reductionPerThousand": 100
+  }
+}

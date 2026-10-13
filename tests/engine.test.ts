@@ -26,8 +26,11 @@ import {
   withholdingCheck,
   hourlyToAnnual,
   annualToHourly,
+  caOvertimeHours,
+  caWithholding,
+  weeklyPayTaxes,
 } from "../src/lib/engine/tax";
-import type { FederalConfig, StateConfig } from "../src/lib/engine/types";
+import type { CaWithholdingConfig, FederalConfig, StateConfig } from "../src/lib/engine/types";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const load = (p: string) => JSON.parse(readFileSync(resolve(here, "..", p), "utf8"));
@@ -36,6 +39,8 @@ const ca = load("data/tax/us/2026/states/ca.json") as StateConfig;
 const tx = load("data/tax/us/2026/states/tx.json") as StateConfig;
 const va = load("data/tax/us/2026/states/va.json") as StateConfig;
 const wa = load("data/tax/us/2026/states/wa.json") as StateConfig;
+const federal2025 = load("data/tax/us/2025/federal.json") as FederalConfig;
+const caWh = load("data/tax/us/2026/withholding-ca.json") as CaWithholdingConfig;
 
 let passed = 0;
 function check(name: string, fn: () => void) {
@@ -254,6 +259,58 @@ check("affordability returns sane price >= down payment", () => {
   assert.ok(a.maxMonthlyPayment > 0);
   assert.ok(a.maxHomePrice >= 40000);
   assert.ok(a.maxLoan > 0);
+});
+
+console.log("CALIFORNIA OVERTIME");
+check("CA: five 10-hour days = 40 regular + 10 OT", () => {
+  const r = caOvertimeHours([10, 10, 10, 10, 10, 0, 0]);
+  assert.deepEqual([r.regular, r.overtime, r.doubleTime, r.seventhDay, r.flsaOvertime], [40, 10, 0, false, 10]);
+});
+check("CA: a 14-hour day = 8 regular + 4 OT + 2 double time", () => {
+  const r = caOvertimeHours([14, 0, 0, 0, 0, 0, 0]);
+  assert.deepEqual([r.regular, r.overtime, r.doubleTime, r.flsaOvertime], [8, 4, 2, 0]);
+});
+check("CA: six 8-hour days push 8 hours past 40 into OT", () => {
+  const r = caOvertimeHours([8, 8, 8, 8, 8, 8, 0]);
+  assert.deepEqual([r.regular, r.overtime, r.doubleTime], [40, 8, 0]);
+});
+check("CA: seventh straight day, 10 hours = 8 OT + 2 double time", () => {
+  const r = caOvertimeHours([8, 8, 8, 8, 8, 0.5, 10]);
+  assert.equal(r.seventhDay, true);
+  assert.deepEqual([r.regular, r.overtime, r.doubleTime], [40, 8.5, 2]);
+});
+check("CA withholding matches EDD 2026 Method B Example E ($99.20/yr)", () => {
+  near(caWithholding(57600, "married_jointly", caWh, 4), 99.2);
+});
+check("CA withholding: under the low-income exemption = 0", () => {
+  assert.equal(caWithholding(18000, "single", caWh), 0);
+});
+check("weekly taxes: no-tax state = federal + FICA only", () => {
+  const r = weeklyPayTaxes(1000, "single", federal);
+  near(r.socialSecurity, 62);
+  near(r.medicare, 14.5);
+  assert.equal(r.state, 0);
+  near(r.net, 1000 - r.federal - 76.5);
+});
+check("weekly taxes: CA adds withholding + 1.3% SDI", () => {
+  const r = weeklyPayTaxes(1000, "single", federal, { kind: "ca", cfg: caWh });
+  near(r.statePayroll, 13);
+  assert.ok(r.state > 0);
+});
+
+console.log("1099 / 2025");
+check("2025 single: $15,750 standard deduction, $176,100 SS cap", () => {
+  assert.equal(federal2025.standardDeduction.single, 15750);
+  assert.equal(federal2025.fica.socialSecurity.wageBase, 176100);
+});
+check("1099 adjustments cut income tax, not SE tax", () => {
+  const base = freelanceTax(80000, "single", federal);
+  const sep = freelanceTax(80000, "single", federal, 10000);
+  assert.equal(sep.se.seTax, base.se.seTax);
+  assert.ok(sep.federalIncomeTax < base.federalIncomeTax);
+});
+check("1099 itemized below standard changes nothing", () => {
+  assert.equal(freelanceTax(80000, "single", federal, 0, 5000).totalTax, freelanceTax(80000, "single", federal).totalTax);
 });
 
 console.log("SALARY/HOURLY");

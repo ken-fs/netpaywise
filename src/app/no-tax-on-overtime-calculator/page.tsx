@@ -51,7 +51,8 @@ export default function NoTaxOnOvertime() {
           </p>
           <p>
             Just want to know what your overtime pays? Use the{" "}
-            <a href="/overtime-calculator/">overtime calculator</a>. For your full take-home, try the{" "}
+            <a href="/overtime-calculator/">overtime calculator with taxes</a> (or the{" "}
+            <a href="/overtime-calculator/california/">California overtime calculator</a> for daily overtime). For your full take-home, try the{" "}
             <a href="/paycheck-calculator/">paycheck calculator</a>.
           </p>
         </>
