@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { CaWithholdingConfig, FederalConfig, FilingStatus } from "@/lib/engine/types";
+import type { FederalConfig, FilingStatus, StateConfig } from "@/lib/engine/types";
 import { caOvertimeHours, weeklyPayTaxes } from "@/lib/engine/tax";
 import { usd2 } from "@/lib/format";
 
@@ -13,7 +13,7 @@ const FILING: { v: FilingStatus; label: string }[] = [
 ];
 const DAYS = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"];
 
-export function CaOvertimeCalculator({ federal, ca }: { federal: FederalConfig; ca: CaWithholdingConfig }) {
+export function CaOvertimeCalculator({ federal, ca }: { federal: FederalConfig; ca: StateConfig }) {
   const [rate, setRate] = useState(24);
   const [days, setDays] = useState([10, 10, 10, 10, 10, 0, 0]);
   const [filing, setFiling] = useState<FilingStatus>("single");
@@ -25,7 +25,7 @@ export function CaOvertimeCalculator({ federal, ca }: { federal: FederalConfig; 
     doubleTime: rate * 2 * h.doubleTime,
   };
   const gross = pay.regular + pay.overtime + pay.doubleTime;
-  const t = useMemo(() => weeklyPayTaxes(gross, filing, federal, { kind: "ca", cfg: ca }), [gross, filing, federal, ca]);
+  const t = useMemo(() => weeklyPayTaxes(gross, filing, federal, { kind: "state", state: ca }), [gross, filing, federal, ca]);
   const totalHours = days.reduce((a, b) => a + b, 0);
   const setDay = (i: number, v: number) => setDays((d) => d.map((x, j) => (j === i ? Math.min(24, Math.max(0, v)) : x)));
 
@@ -77,7 +77,7 @@ export function CaOvertimeCalculator({ federal, ca }: { federal: FederalConfig; 
           Counts for the federal no-tax-on-overtime deduction: {usd2(rate * 0.5 * h.flsaOvertime)} ({h.flsaOvertime}h over 40)
         </div>
         <p className="disclaimer">
-          {ca.taxYear} withholding estimate: federal percentage method, California EDD Method B with one
+          {federal.taxYear} withholding estimate: federal percentage method, California EDD Method B with one
           allowance (two if married), as if every week looked like this one. Doesn&apos;t cover meal or rest
           break premiums, alternative workweek schedules, or exempt jobs.
         </p>

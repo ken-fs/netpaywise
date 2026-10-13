@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { loadCaWithholding, loadFederal } from "@/lib/data";
+import { loadFederal, loadState } from "@/lib/data";
 import { CaOvertimeCalculator } from "@/components/CaOvertimeCalculator";
 import { ToolPage } from "@/components/ToolPage";
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function CaliforniaOvertime() {
   const federal = loadFederal();
-  const ca = loadCaWithholding();
+  const ca = loadState("CA");
   return (
     <ToolPage
       appName="takehomepal California Overtime Calculator"

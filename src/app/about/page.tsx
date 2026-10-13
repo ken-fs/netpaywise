@@ -9,7 +9,8 @@ export const metadata: Metadata = {
 
 export default function About() {
   const federal = loadFederal();
-  const stateCount = statesWithData().length;
+  const noTaxCount = statesWithData().filter((s) => s.noIncomeTax).length;
+  const taxedNames = statesWithData().filter((s) => !s.noIncomeTax).map((s) => s.name).join(", ");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -54,7 +55,7 @@ export default function About() {
           <p>Every result comes from published rules, not guesses:</p>
           <ul>
             <li><strong>Federal income tax</strong> — current IRS brackets, applied after the standard deduction.</li>
-            <li><strong>State income tax</strong> — we only publish a state once its numbers are checked. Today that's the {stateCount} states with no income tax on wages; states with their own tax tables come later.</li>
+            <li><strong>State income tax</strong> — we only publish a state once its numbers are checked. Today that's the {noTaxCount} states with no income tax on wages{taxedNames ? `, plus ${taxedNames} (from the state's official ${federal.taxYear} withholding tables)` : ""}. More states come once their tables are checked.</li>
             <li><strong>FICA</strong> — 6.2% Social Security up to the annual wage cap, plus 1.45% Medicare (and the 0.9% surtax for high earners).</li>
             <li><strong>1099 income</strong> — self-employment tax on 92.35% of profit, then income tax after half of it, the standard deduction and the 20% QBI deduction.</li>
           </ul>

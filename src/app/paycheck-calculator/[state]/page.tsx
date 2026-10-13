@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
 
 function topRate(state: StateConfig): number | null {
   if (state.type === "none") return null;
+  if (state.topRatePct) return state.topRatePct;
   if (state.type === "flat") return (state.rate ?? 0) * 100;
   const b = state.brackets?.[state.bracketFallback ?? "single"];
   const last = b?.[b.length - 1];
@@ -40,7 +41,8 @@ export default async function StatePaycheck({ params }: { params: Promise<{ stat
 
   const federal = loadFederal();
   const state = loadState(meta.abbr);
-  const others = statesWithData().filter((s) => s.abbr !== meta.abbr);
+  const others = statesWithData().filter((s) => s.abbr !== meta.abbr && s.noIncomeTax);
+  const taxed = statesWithData().filter((s) => s.abbr !== meta.abbr && !s.noIncomeTax);
   const noTax = state.type === "none";
   const premiums = state.payrollTaxes ?? [];
   const premiumNames = premiums.map((t) => t.name).join(" and ");
@@ -128,7 +130,18 @@ export default async function StatePaycheck({ params }: { params: Promise<{ stat
             shows what&apos;s left after the flat 22% withholding. Working extra hours? The{" "}
             <a href="/overtime-calculator/">overtime calculator</a> shows overtime pay after taxes.
           </p>
-          <h2>Other states with no income tax</h2>
+          {taxed.length > 0 && (
+            <p>
+              Also published:{" "}
+              {taxed.map((s, i) => (
+                <span key={s.abbr}>
+                  {i > 0 && " · "}
+                  <a href={`/paycheck-calculator/${s.abbr.toLowerCase()}/`}>{s.name} paycheck calculator</a>
+                </span>
+              ))}.
+            </p>
+          )}
+          <h2>{noTax ? "Other states with no income tax" : "States with no income tax"}</h2>
           <p>
             {others.map((s, i) => (
               <span key={s.abbr}>

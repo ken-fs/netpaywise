@@ -68,6 +68,9 @@ export function stateIncomeTax(
   state: StateConfig,
 ): number {
   if (state.type === "none") return 0;
+  if (state.type === "withholding") {
+    return state.caWithholding ? caWithholding(Math.max(0, grossAnnual - preTaxDeductions), filingStatus, state.caWithholding) : 0;
+  }
 
   const std = state.standardDeduction?.[filingStatus] ?? 0;
   const taxable = Math.max(0, grossAnnual - preTaxDeductions - std);
@@ -357,10 +360,23 @@ export function caWithholding(
   return round2(Math.max(0, tax - allowances * cfg.allowanceCredit));
 }
 
+/**
+ * Wire a "withholding" state config to its table, and add SDI as a payroll premium, so the
+ * paycheck calculator uses the exact same California numbers as the overtime calculators.
+ */
+export function attachCaWithholding(state: StateConfig, cfg: CaWithholdingConfig): StateConfig {
+  return {
+    ...state,
+    caWithholding: cfg,
+    payrollTaxes: [...(state.payrollTaxes ?? []), { name: "CA SDI", rate: cfg.sdiRate }],
+  };
+}
+
 export type WeeklyStateTax =
   | { kind: "none" }
   | { kind: "rate"; pct: number }
-  | { kind: "ca"; cfg: CaWithholdingConfig };
+  /** A full state config (e.g. California from loadState, withholding table attached). */
+  | { kind: "state"; state: StateConfig };
 
 export interface WeeklyTaxResult {
   gross: number;
@@ -393,9 +409,9 @@ export function weeklyPayTaxes(
   let st = 0;
   let sp = 0;
   if (state.kind === "rate") st = round2(gross * (Math.max(0, state.pct) / 100));
-  if (state.kind === "ca") {
-    st = round2(caWithholding(annual, filingStatus, state.cfg) / 52);
-    sp = round2(gross * state.cfg.sdiRate);
+  if (state.kind === "state") {
+    st = round2(stateIncomeTax(annual, filingStatus, 0, state.state) / 52);
+    sp = round2(statePayrollTax(annual, state.state) / 52);
   }
   const totalTax = round2(fed + ss + med + st + sp);
   return { gross, federal: fed, socialSecurity: ss, medicare: med, state: st, statePayroll: sp, totalTax, net: round2(gross - totalTax) };

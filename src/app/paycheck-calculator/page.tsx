@@ -23,6 +23,7 @@ export default function PaycheckHub() {
   const federal = loadFederal();
   const states = [...loadAllStateConfigs(), OTHER_STATE];
   const ready = statesWithData();
+  const sdi = states.find((s) => s.state === "CA")?.caWithholding?.sdiRate ?? 0;
 
   const faq = [
     { q: "What is take-home pay?", a: "It's what lands in your bank account after federal tax, state tax, and FICA come out of your gross salary." },
@@ -30,6 +31,7 @@ export default function PaycheckHub() {
     { q: "Why is my paycheck smaller than my salary ÷ pay periods?", a: "Taxes. Federal income tax, your state's income tax, and FICA (Social Security + Medicare) all come out first." },
     { q: "Are these numbers exact?", a: `They're estimates for the ${federal.taxYear} tax year, using the standard deduction and no credits. Your real paycheck can differ.` },
     { q: "My state isn't in the list. Can I still use this?", a: "Yes. Pick \"Another state\" to get federal tax and FICA. Your state's income tax isn't included yet, so subtract it on top." },
+    { q: "How is California tax figured?", a: `With the EDD's ${federal.taxYear} withholding tables, the same ones payroll uses, plus ${+(sdi * 100).toFixed(2)}% for State Disability Insurance. That's what comes out of each check. Your final California tax is often a little lower, so a small refund is common.` },
   ];
 
   const jsonLd = {
@@ -68,9 +70,14 @@ export default function PaycheckHub() {
             shrink the taxable slice. That's the lever most people forget.
           </p>
           <h2>Paycheck calculators by state</h2>
+          <ul>
+            {ready.filter((s) => !s.noIncomeTax).map((s) => (
+              <li key={s.abbr}><a href={`/paycheck-calculator/${s.abbr.toLowerCase()}/`}>{s.name} paycheck calculator</a> — state income tax and SDI included</li>
+            ))}
+          </ul>
           <p>These states don&apos;t tax wages, so federal tax and FICA are the whole story:</p>
           <ul>
-            {ready.map((s) => (
+            {ready.filter((s) => s.noIncomeTax).map((s) => (
               <li key={s.abbr}><a href={`/paycheck-calculator/${s.abbr.toLowerCase()}/`}>{s.name} paycheck calculator</a></li>
             ))}
           </ul>

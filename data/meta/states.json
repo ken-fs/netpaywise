@@ -1,10 +1,10 @@
 {
-  "_comment": "All 50 states + DC. hasData=true means the state is live on the site. 2026-10-09: launch scope cut to the 9 no-income-tax states (verified, no state tax tables to maintain). Other states' configs in ../tax/us/2026/states/ are unverified best-effort drafts — do not flip hasData until checked against the state's official 2026 tables. See 08-viability-2026-10.md.",
+  "_comment": "All 50 states + DC. hasData=true means the state is live on the site. 2026-10-09: launch scope cut to the 9 no-income-tax states (verified, no state tax tables to maintain). Other states' configs in ../tax/us/2026/states/ are unverified best-effort drafts — do not flip hasData until checked against the state's official 2026 tables. See 08-viability-2026-10.md. 2026-10-13: California added (EDD 2026 withholding tables + SDI, verified).",
   "states": [
     {
       "abbr": "CA",
       "name": "California",
-      "hasData": false,
+      "hasData": true,
       "priority": 1
     },
     {

@@ -53,7 +53,8 @@ export interface FederalConfig {
 export interface StateConfig {
   state: string;
   name: string;
-  type: "none" | "flat" | "progressive";
+  /** "withholding": state tax is the employer withholding table in `caWithholding`. */
+  type: "none" | "flat" | "progressive" | "withholding";
   rate?: number; // for flat
   standardDeduction?: Partial<Record<FilingStatus, number>>;
   brackets?: Partial<Record<FilingStatus, Bracket[]>>;
@@ -65,6 +66,12 @@ export interface StateConfig {
   payrollTaxes?: { name: string; rate: number; wageBase?: number }[];
   /** Payroll deductions the estimate leaves out, shown next to the result. */
   notIncluded?: string;
+  /** For type "withholding": file (next to states/) holding the withholding table. */
+  withholdingFile?: string;
+  /** Statutory top income tax rate (%), for page copy when there are no brackets. */
+  topRatePct?: number;
+  /** For type "withholding": attached at load time by attachCaWithholding. */
+  caWithholding?: CaWithholdingConfig;
 }
 
 export const PERIODS_PER_YEAR: Record<PayFrequency, number> = {

@@ -109,12 +109,13 @@ export default function Home() {
       </section>
 
       <section className="wrap tools">
-        <h2>States with no income tax</h2>
+        <h2>Paycheck calculators by state</h2>
         <div className="ledger">
-          {states.map((s) => (
+          {[...states.filter((s) => !s.noIncomeTax), ...states.filter((s) => s.noIncomeTax)].map((s) => (
             <a className="ledger-row" key={s.abbr} href={`/paycheck-calculator/${s.abbr.toLowerCase()}/`}>
               <div className="lr-main">
                 <span className="lr-name">{s.name} paycheck calculator</span>
+                <span className="lr-sub">{s.noIncomeTax ? "No state income tax" : "State tax and SDI included"}</span>
               </div>
               <Arrow />
             </a>

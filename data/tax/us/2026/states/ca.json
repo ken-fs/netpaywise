@@ -1,34 +1,18 @@
 {
-  "_comment": "California state income tax. 2025 baseline values, VERIFY for 2026.",
+  "_comment": "California. Paycheck state tax = EDD 2026 withholding (Method B) and SDI, read from ../withholding-ca.json at load time so the paycheck, overtime and California overtime calculators share one table. FTB 2025 rate schedules (ftb.ca.gov/forms/2025/2025-540-tax-rate-schedules.pdf): 1% to 12.3% on the same bracket edges EDD uses for 2026, plus the 1% Mental Health Services Tax over $1 million. Verified 2026-10-13.",
   "state": "CA",
   "name": "California",
   "taxYear": 2026,
-  "verified": false,
-  "type": "progressive",
-  "standardDeduction": { "single": 5540, "married_jointly": 11080, "married_separately": 5540, "head_of_household": 11080 },
-  "brackets": {
-    "single": [
-      { "upTo": 10756, "rate": 0.01 },
-      { "upTo": 25499, "rate": 0.02 },
-      { "upTo": 40245, "rate": 0.04 },
-      { "upTo": 55866, "rate": 0.06 },
-      { "upTo": 70606, "rate": 0.08 },
-      { "upTo": 360659, "rate": 0.093 },
-      { "upTo": 432787, "rate": 0.103 },
-      { "upTo": 721314, "rate": 0.113 },
-      { "upTo": null, "rate": 0.123 }
-    ],
-    "married_jointly": [
-      { "upTo": 21512, "rate": 0.01 },
-      { "upTo": 50998, "rate": 0.02 },
-      { "upTo": 80490, "rate": 0.04 },
-      { "upTo": 111732, "rate": 0.06 },
-      { "upTo": 141212, "rate": 0.08 },
-      { "upTo": 721318, "rate": 0.093 },
-      { "upTo": 865574, "rate": 0.103 },
-      { "upTo": 1442628, "rate": 0.113 },
-      { "upTo": null, "rate": 0.123 }
-    ]
-  },
-  "bracketFallback": "single"
+  "verified": true,
+  "verifiedOn": "2026-10-13",
+  "type": "withholding",
+  "withholdingFile": "withholding-ca.json",
+  "topRatePct": 13.3,
+  "notes": [
+    "California's income tax runs from 1% to 12.3%, plus another 1% on income over $1 million for mental health services. That top 13.3% is the highest state rate in the country, but a typical full-time salary lands in the 4% to 9.3% brackets.",
+    "This calculator shows what your employer withholds, using the EDD's 2026 withholding tables (one allowance, or two if you're married filing jointly). Those tables run a little above the actual tax rates — 1.1% to 14.63% — so many Californians get a small state refund when they file.",
+    "California also takes 1.3% of every dollar you earn for State Disability Insurance (SDI) in 2026. There's no wage cap anymore, so it applies to all of your pay. It's included in the result above.",
+    "One thing California does differently: it taxes HSA contributions. If your pre-tax deductions include an HSA, your real California withholding will be a little higher than shown."
+  ],
+  "notIncluded": "California withholding assumes one allowance (two if married filing jointly)."
 }

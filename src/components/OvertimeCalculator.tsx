@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { CaWithholdingConfig, FederalConfig, FilingStatus } from "@/lib/engine/types";
+import type { FederalConfig, FilingStatus, StateConfig } from "@/lib/engine/types";
 import { overtimePay, weeklyPayTaxes, type WeeklyStateTax } from "@/lib/engine/tax";
 import { usd2, usd } from "@/lib/format";
 
@@ -14,7 +14,7 @@ const FILING: { v: FilingStatus; label: string }[] = [
 
 type StateMode = "none" | "ca" | "rate";
 
-export function OvertimeCalculator({ federal, ca }: { federal: FederalConfig; ca: CaWithholdingConfig }) {
+export function OvertimeCalculator({ federal, ca }: { federal: FederalConfig; ca: StateConfig }) {
   const [rate, setRate] = useState(22);
   const [regHours, setRegHours] = useState(40);
   const [otHours, setOtHours] = useState(8);
@@ -25,7 +25,7 @@ export function OvertimeCalculator({ federal, ca }: { federal: FederalConfig; ca
 
   const r = useMemo(() => overtimePay(rate, regHours, otHours, mult), [rate, regHours, otHours, mult]);
   const st = useMemo<WeeklyStateTax>(
-    () => (stateMode === "ca" ? { kind: "ca", cfg: ca } : stateMode === "rate" ? { kind: "rate", pct: stateRate } : { kind: "none" }),
+    () => (stateMode === "ca" ? { kind: "state", state: ca } : stateMode === "rate" ? { kind: "rate", pct: stateRate } : { kind: "none" }),
     [stateMode, stateRate, ca],
   );
   const t = useMemo(() => weeklyPayTaxes(r.total, filing, federal, st), [r.total, filing, federal, st]);

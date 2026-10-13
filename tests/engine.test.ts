@@ -29,18 +29,20 @@ import {
   caOvertimeHours,
   caWithholding,
   weeklyPayTaxes,
+  attachCaWithholding,
 } from "../src/lib/engine/tax";
 import type { CaWithholdingConfig, FederalConfig, StateConfig } from "../src/lib/engine/types";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const load = (p: string) => JSON.parse(readFileSync(resolve(here, "..", p), "utf8"));
 const federal = load("data/tax/us/2026/federal.json") as FederalConfig;
-const ca = load("data/tax/us/2026/states/ca.json") as StateConfig;
+const caRaw = load("data/tax/us/2026/states/ca.json") as StateConfig;
 const tx = load("data/tax/us/2026/states/tx.json") as StateConfig;
 const va = load("data/tax/us/2026/states/va.json") as StateConfig;
 const wa = load("data/tax/us/2026/states/wa.json") as StateConfig;
 const federal2025 = load("data/tax/us/2025/federal.json") as FederalConfig;
-const caWh = load("data/tax/us/2026/withholding-ca.json") as CaWithholdingConfig;
+const caWh = load(`data/tax/us/2026/${caRaw.withholdingFile}`) as CaWithholdingConfig;
+const ca = attachCaWithholding(caRaw, caWh);
 
 let passed = 0;
 function check(name: string, fn: () => void) {
@@ -111,7 +113,7 @@ check("additional Medicare over $200k (single)", () => {
 check("Texas has no state income tax", () => {
   assert.equal(stateIncomeTax(80000, "single", 0, tx), 0);
 });
-check("CA + VA progressive state tax > 0 for $80k", () => {
+check("CA (withholding) + VA (progressive) state tax > 0 for $80k", () => {
   assert.ok(stateIncomeTax(80000, "single", 0, ca) > 0);
   assert.ok(stateIncomeTax(80000, "single", 0, va) > 0);
 });
@@ -293,9 +295,30 @@ check("weekly taxes: no-tax state = federal + FICA only", () => {
   near(r.net, 1000 - r.federal - 76.5);
 });
 check("weekly taxes: CA adds withholding + 1.3% SDI", () => {
-  const r = weeklyPayTaxes(1000, "single", federal, { kind: "ca", cfg: caWh });
+  const r = weeklyPayTaxes(1000, "single", federal, { kind: "state", state: ca });
   near(r.statePayroll, 13);
   assert.ok(r.state > 0);
+});
+
+check("CA paycheck: EDD Example E computed tax $772.40, minus 2 allowances ($336.60)", () => {
+  // Semi-monthly $2,400 married = $57,600/yr. EDD's computed annual tax is $772.40; the paycheck
+  // calculator assumes 2 allowances (Table 4: $336.60/yr) instead of the example's 4.
+  const r = computePaycheck({ grossAnnual: 57600, payFrequency: "semimonthly", filingStatus: "married_jointly" }, federal, ca);
+  near(r.stateIncomeTax, 772.4 - 336.6);
+  near(r.statePayroll, 57600 * 0.013);
+});
+check("CA: paycheck, overtime and CA overtime calculators withhold the same", () => {
+  for (const [weekly, fs] of [[1320, "single"], [2500, "married_jointly"], [700, "head_of_household"]] as const) {
+    const p = computePaycheck({ grossAnnual: weekly * 52, payFrequency: "weekly", filingStatus: fs }, federal, ca);
+    const w = weeklyPayTaxes(weekly, fs, federal, { kind: "state", state: ca });
+    near(w.state, p.stateIncomeTax / 52, 0.01);
+    near(w.statePayroll, p.statePayroll / 52, 0.01);
+    near(w.state, caWithholding(weekly * 52, fs, caWh) / 52, 0.01);
+  }
+});
+check("CA SDI comes from the withholding file only", () => {
+  assert.deepEqual(ca.payrollTaxes, [{ name: "CA SDI", rate: caWh.sdiRate }]);
+  assert.equal(caRaw.brackets, undefined);
 });
 
 console.log("1099 / 2025");
