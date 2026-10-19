@@ -4,7 +4,7 @@ import { OvertimeCalculator } from "@/components/OvertimeCalculator";
 import { ToolPage } from "@/components/ToolPage";
 
 export const metadata: Metadata = {
-  title: "Overtime Calculator With Taxes — Overtime Pay After Tax (2026)",
+  title: "Overtime Tax Calculator 2026 — Overtime Pay After Tax",
   description:
     "Free overtime calculator with taxes. Enter your rate and hours to see time and a half or double time, the federal tax, Social Security, Medicare and state tax taken out, and your take-home.",
   alternates: { canonical: "/overtime-calculator/" },
@@ -16,8 +16,8 @@ export default function Overtime() {
   return (
     <ToolPage
       appName="takehomepal Overtime Calculator"
-      title="Overtime calculator with taxes: what the extra hours really pay."
-      lede="Rate, regular hours, overtime hours. See the week's gross at time and a half or double time, then what's left after taxes come out."
+      title="Overtime tax calculator: what the extra hours really pay after tax."
+      lede="Overtime is taxed like the rest of your pay, so most people keep about 65–80% of it. Enter your rate, regular hours and overtime hours to see the week's gross at time and a half or double time, then what's left after taxes come out."
       faq={[
         { q: "How do I calculate time and a half?", a: "Multiply your hourly rate by 1.5. At $20 an hour, time and a half is $30. Then multiply by your overtime hours: 10 hours of overtime is $300 on top of your regular pay." },
         { q: "How much of my overtime do I keep after taxes?", a: "Usually 65–80%, depending on your bracket and state. At $22 an hour, 8 hours of time and a half is $264 gross. A single filer in a no-tax state working a 40-hour base week keeps about $212 of it after federal withholding, Social Security and Medicare. The calculator shows your number under the result." },
