@@ -5,7 +5,7 @@ import { ToolPage } from "@/components/ToolPage";
 import { usd } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Bonus Tax Calculator 2026 — Your Bonus After Tax",
+  title: "Bonus Tax Rate 2026 Calculator — Your Bonus After Tax",
   description:
     "Free 2026 bonus tax calculator. See your bonus after tax with the flat 22% method or added to a paycheck (aggregate method), plus Social Security and Medicare. No signup.",
   alternates: { canonical: "/bonus-tax-calculator/" },
@@ -19,8 +19,8 @@ export default function BonusTax() {
   return (
     <ToolPage
       appName="takehomepal Bonus Tax Calculator"
-      title="Bonus tax calculator: your bonus after tax."
-      lede="Bonuses get withheld differently from your normal pay. See what actually lands, whether it comes as its own check or rides on a regular one."
+      title="Bonus tax rate 2026 calculator: your bonus after tax."
+      lede={`The ${y} federal bonus tax rate is ${sw.rate * 100}% when paid separately. Add 7.65% for Social Security and Medicare, plus any state tax. See what actually lands, whether it comes as its own check or rides on a regular one.`}
       faq={[
         { q: "How much is a bonus taxed?", a: `Usually ${sw.rate * 100}% federal withholding plus 7.65% for Social Security and Medicare, so about 29.65% before any state tax. On a $5,000 bonus that's roughly $1,483 withheld and $3,518 kept in a state with no income tax.` },
         { q: `What is the bonus tax rate for ${y}?`, a: `The federal supplemental withholding rate is ${sw.rate * 100}% for ${y}, and ${sw.highRate * 100}% on supplemental wages over $1 million for the year. Social Security (6.2% up to ${cap} of total wages) and Medicare (1.45%) apply too.` },
