@@ -69,6 +69,25 @@ export default function PaycheckHub() {
             Pre-tax deductions like a 401(k) or HSA come out before income tax, so they
             shrink the taxable slice. That's the lever most people forget.
           </p>
+          <h2>Paycheck checker: is your pay stub right?</h2>
+          <p>
+            Use the calculator above as a quick paycheck checker. Enter your gross pay, pay
+            frequency, filing status and state. Then compare each line to your stub.
+          </p>
+          <ul>
+            <li>Federal income tax, Social Security and Medicare should be close to the estimate.</li>
+            <li>If federal tax is far off, your W-4 settings may differ from the standard deduction used here.</li>
+            <li>Health insurance and other deductions aren&apos;t modeled. Enter 401(k) or HSA money in the pre-tax box.</li>
+          </ul>
+          <p>
+            Small gaps are normal. This is an estimate with no credits, so it won&apos;t match
+            payroll to the cent. A big gap is worth asking your payroll team about.
+          </p>
+          <h2>Paycheck planner: what if my pay changes?</h2>
+          <p>
+            Try a raise, a new state, or a bigger 401(k) contribution. Change one number at a time
+            and watch your take-home move. Extra hours? See the <a href="/overtime-calculator/">overtime calculator</a>.
+          </p>
           <h2>Paycheck calculators by state</h2>
           <ul>
             {ready.filter((s) => !s.noIncomeTax).map((s) => (
