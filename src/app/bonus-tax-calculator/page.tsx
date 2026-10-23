@@ -48,6 +48,14 @@ export default function BonusTax() {
             your real rate, and the withholding is credited against that. A bonus that looked
             brutal on the pay stub often comes back partly as a refund.
           </p>
+          <h2>Bonus tax in Pennsylvania</h2>
+          <p>
+            Pennsylvania taxes a bonus at its flat 3.07% income tax rate, the same as the rest of your pay. On a
+            $5,000 bonus paid as its own check, that&apos;s about $154 for the state, on top of 22% federal and
+            7.65% Social Security and Medicare. Most Pennsylvania towns also charge a local earned income tax,
+            and the rate depends on where you live and work. Pick “Another state”, enter 3.07% plus your local rate,
+            and the calculator shows what you keep.
+          </p>
           <p>
             By state: the <a href="/bonus-tax-calculator/ny/">New York bonus tax calculator</a> adds
             the state&apos;s 11.7% bonus rate, NYC or Yonkers tax and Paid Family Leave. The{" "}

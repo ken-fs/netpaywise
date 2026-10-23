@@ -47,6 +47,13 @@ export default function Overtime() {
             take-home with overtime minus the take-home without it, so it already includes the
             higher bracket that overtime pushes you into.
           </p>
+          <h2>How much tax will I pay if I work overtime?</h2>
+          <p>
+            You pay the same tax rates on overtime as on your other pay. The extra hours can push part of your income
+            into a higher bracket, and the 7.65% for Social Security and Medicare comes out too. Most people keep
+            about 65–80% of what they earn in overtime. Enter your rate and hours above to see your own number
+            for 2026.
+          </p>
           <h2>Overtime and the new tax deduction</h2>
           <p>
             From 2025 to 2028, the premium part of FLSA overtime — the extra half in time and a half — can
