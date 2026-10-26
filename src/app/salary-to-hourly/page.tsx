@@ -44,6 +44,10 @@ export default function SalaryToHourly() {
             hours you&apos;d really work. An hourly job also pays overtime past 40 — run those hours through
             the <a href="/overtime-calculator/">overtime calculator</a> to compare fairly.
           </p>
+          <p>
+            Looking for a specific number? $65,000 a year is about $31.25 an hour at 40 hours a week.
+            See the <a href="/salary-to-hourly/65000-a-year/">$65,000 a year breakdown</a> for monthly, weekly and after-tax pay.
+          </p>
           <h2>Common amounts, worked out</h2>
           <ul className="amount-links">
             {AMOUNT_PAGES.map((o) => <li key={o.slug}><a href={`/salary-to-hourly/${o.slug}/`}>{labelOf(o)}</a></li>)}

@@ -54,6 +54,15 @@ export default function Overtime() {
             about 65–80% of what they earn in overtime. Enter your rate and hours above to see your own number
             for 2026.
           </p>
+          <h2>How to calculate tax on overtime</h2>
+          <p>
+            Work out the gross first: rate × 1.5 × overtime hours. Then take off Social Security (6.2%),
+            Medicare (1.45%), federal income tax and any state tax. This OT calculator does all of that for you.
+          </p>
+          <p>
+            Example: at $22 an hour, 8 hours of time and a half is $264 gross. A single filer in a no-tax state
+            keeps about $212 of it. Your number will differ with your state, filing status and regular pay.
+          </p>
           <h2>Overtime and the new tax deduction</h2>
           <p>
             From 2025 to 2028, the premium part of FLSA overtime — the extra half in time and a half — can
