@@ -30,7 +30,7 @@
     {
       "abbr": "NY",
       "name": "New York",
-      "hasData": false,
+      "hasData": true,
       "priority": 4
     },
     {

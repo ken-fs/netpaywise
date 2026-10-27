@@ -19,5 +19,11 @@
       { "upTo": null, "rate": 0.109 }
     ]
   },
-  "bracketFallback": "single"
+  "bracketFallback": "single",
+  "notes": [
+    "New York's income tax runs from 4% to 10.9%. Most full-time salaries land in the 5.5% to 6.85% brackets.",
+    "This calculator covers New York State tax only. It doesn't include New York City or Yonkers income tax. If you live in NYC, your real take-home will be lower than shown.",
+    "It also leaves out New York's small payroll deductions for State Disability Insurance (SDI) and Paid Family Leave (PFL). Check your pay stub for the exact amounts.",
+    "Married filers use single brackets here, so the result is an estimate. Treat it as a close guide, not your exact withholding."
+  ]
 }
