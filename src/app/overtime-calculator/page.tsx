@@ -47,6 +47,16 @@ export default function Overtime() {
             take-home with overtime minus the take-home without it, so it already includes the
             higher bracket that overtime pushes you into.
           </p>
+          <h2>What rate is overtime taxed at?</h2>
+          <p>
+            Overtime is taxed at your normal rate. There is no special overtime tax rate. It&apos;s added to your
+            other pay and taxed by the same federal brackets, plus 6.2% Social Security, 1.45% Medicare and your
+            state tax.
+          </p>
+          <p>
+            Your paycheck can look like a higher rate was used. That&apos;s because payroll withholds as if you earn
+            that big check every week. Any extra withholding comes back when you file your return.
+          </p>
           <h2>How much tax will I pay if I work overtime?</h2>
           <p>
             You pay the same tax rates on overtime as on your other pay. The extra hours can push part of your income
