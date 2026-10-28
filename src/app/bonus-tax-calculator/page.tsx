@@ -42,6 +42,16 @@ export default function BonusTax() {
             Either way, Social Security (6.2%) and Medicare (1.45%) come out too. Social Security
             stops once your total pay for {y} passes {cap}, so a big year-end bonus can skip it.
           </p>
+          <h2>What was the bonus tax rate in 2023?</h2>
+          <p>
+            The 2023 federal bonus tax rate was 22% for bonuses paid as their own check. It was 37% on
+            supplemental pay over $1 million for the year. Social Security (6.2%, up to $160,200 of wages in 2023)
+            and Medicare (1.45%) came out too.
+          </p>
+          <p>
+            This calculator runs on {y} numbers. The 22% flat rate is the same, so a separate-check bonus
+            is withheld the same way. The Social Security cap is different, so a very large bonus can differ a bit.
+          </p>
           <h2>Withholding isn&apos;t the final tax</h2>
           <p>
             Your bonus is still just income. When you file, it&apos;s added to your salary and taxed at
