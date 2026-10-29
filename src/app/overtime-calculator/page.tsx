@@ -73,12 +73,29 @@ export default function Overtime() {
             Example: at $22 an hour, 8 hours of time and a half is $264 gross. A single filer in a no-tax state
             keeps about $212 of it. Your number will differ with your state, filing status and regular pay.
           </p>
+          <h2>Overtime and tax brackets</h2>
+          <p>
+            Overtime can push some of your income into a higher bracket. Only the dollars above the
+            bracket line are taxed at the higher rate. The rest of your pay stays where it was.
+          </p>
+          <p>
+            For 2026, a single filer pays 10% up to $12,400 of taxable income, 12% up to $50,400,
+            22% up to $105,700 and 24% up to $201,775. The standard deduction is $16,100. So if
+            your taxable income is $49,000, the first $1,400 of extra pay is taxed at 12% and
+            anything after that at 22%. Social Security and Medicare come out on top.
+          </p>
+          <h2>How much tax is taken out of overtime pay?</h2>
+          <p>
+            Expect about 20–35% to come out of each overtime dollar once federal tax, 7.65% for Social
+            Security and Medicare, and state tax are added. The exact number depends on your bracket
+            and state. The calculator above shows yours.
+          </p>
           <h2>Overtime and the new tax deduction</h2>
           <p>
             From 2025 to 2028, the premium part of FLSA overtime — the extra half in time and a half — can
             come off your taxable income, up to $12,500 a year ($25,000 filing jointly). It doesn&apos;t
             change what&apos;s withheld; you get it back at filing. See what that&apos;s worth with the{" "}
-            <a href="/no-tax-on-overtime-calculator/">no tax on overtime calculator</a>, or check your full
+            <a href="/no-tax-on-overtime-calculator/">OT tax deduction calculator</a>, or check your full
             take-home with the <a href="/paycheck-calculator/">paycheck calculator</a>.
           </p>
           <h2>Work in California?</h2>
