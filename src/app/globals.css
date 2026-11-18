@@ -54,12 +54,12 @@ button, input, select { font: inherit; }
 
 /* ---- Header ---- */
 .site-head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 20px; padding: 22px 0 18px; border-bottom: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 10px 20px; padding: 22px 0 18px; border-bottom: 1px solid var(--line);
 }
 .brand { font-family: var(--font-display), serif; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.02em; }
 .brand b { color: var(--take-deep); }
-.nav { display: flex; gap: 22px; font-size: 0.95rem; }
+.nav { display: flex; flex-wrap: wrap; gap: 6px clamp(14px, 4vw, 22px); font-size: 0.95rem; }
 .nav a { text-decoration: none; color: var(--muted); }
 .nav a:hover { color: var(--ink); }
 
@@ -172,6 +172,8 @@ button, input, select { font: inherit; }
 
 /* ---- Calculator (interactive) ---- */
 .calc { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 34px; align-items: start; padding: 30px 0 10px; }
+.calc > * { min-width: 0; }
+.field input, .field select, .money-input input { min-width: 0; max-width: 100%; }
 .calc-inputs { display: flex; flex-direction: column; gap: 15px; }
 .field { display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; }
 .field > span { font-weight: 600; }

@@ -19,6 +19,7 @@ export interface Bracket {
 
 export interface FederalConfig {
   taxYear: number;
+  verifiedOn?: string;
   standardDeduction: Record<FilingStatus, number>;
   brackets: Record<FilingStatus, Bracket[]>;
   fica: {

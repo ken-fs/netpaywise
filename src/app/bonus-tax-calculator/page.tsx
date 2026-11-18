@@ -16,6 +16,13 @@ export default function BonusTax() {
   const y = federal.taxYear;
   const sw = federal.supplementalWithholding;
   const cap = usd(federal.fica.socialSecurity.wageBase);
+  // Relocation / signing bonus examples, all from the same 22% + FICA figures.
+  const ficaRate = federal.fica.socialSecurity.rate + federal.fica.medicare.rate;
+  const flatTotal = sw.rate + ficaRate;
+  const flatPct = +(flatTotal * 100).toFixed(2);
+  const reloc = 10000;
+  const relocKept = reloc * (1 - flatTotal);
+  const grossUp = reloc / (1 - flatTotal);
   return (
     <ToolPage
       appName="takehomepal Bonus Tax Calculator"
@@ -29,6 +36,8 @@ export default function BonusTax() {
         { q: "Do I get some of it back?", a: "Maybe. Withholding isn't your final tax. At filing, the bonus is just more income taxed at your real rate. If your top bracket is 12%, you'll likely get some back. At 24% or higher, the 22% may come up a little short." },
         { q: "Do states tax bonuses?", a: "Nine states don't tax wages at all: Texas, Florida, Washington, Tennessee, Nevada, South Dakota, Wyoming, Alaska and New Hampshire. Most others withhold bonuses at their own flat rate — New York's is 11.7%, plus 4.25% more in New York City. Pick “Another state” and enter it, or use the New York or Texas versions." },
         { q: "Is this the same as the ADP bonus calculator?", a: "No. This tool isn't from ADP and doesn't connect to any payroll system. It uses the same two IRS methods payroll providers use: the flat 22% rate, or the aggregate method on a regular check. Your real check can differ a little with your employer's setup, state or deductions." },
+        { q: "How is a relocation bonus taxed?", a: `Like any other bonus. For ${y} the IRS treats relocation payments and moving reimbursements as taxable wages for almost everyone (the old moving exclusion now only covers active-duty military and some intelligence community moves). Paid as its own check, a ${usd(reloc)} relocation bonus loses about ${flatPct}% to federal withholding, Social Security and Medicare, so you keep about ${usd(relocKept)} before state tax.` },
+        { q: "Is a signing bonus taxed differently?", a: `No. A signing bonus is supplemental pay, the same as a year-end bonus or commission, so it's usually withheld at the flat ${sw.rate * 100}% federal rate plus 7.65% for Social Security and Medicare.` },
         { q: "What if my bonus is over $1 million?", a: `Everything above $1 million in supplemental wages for the year must be withheld at ${sw.highRate * 100}%. The calculator applies that automatically.` },
       ]}
       prose={
@@ -51,6 +60,31 @@ export default function BonusTax() {
           <p>
             This calculator runs on {y} numbers. The 22% flat rate is the same, so a separate-check bonus
             is withheld the same way. The Social Security cap is different, so a very large bonus can differ a bit.
+          </p>
+          <h2>Relocation bonus tax calculator</h2>
+          <p>
+            A relocation bonus is taxed the same way as any other bonus. The IRS lists payments for
+            moving expenses as supplemental wages, and since the One Big Beautiful Bill Act the
+            exclusion for moving reimbursements is gone for good, except for active-duty military
+            moving on orders and some intelligence community employees. So for most people a
+            relocation payment shows up on the W-2 as pay.
+          </p>
+          <p>
+            Paid as its own check, a {usd(reloc)} relocation bonus loses about {flatPct}% to federal
+            withholding, Social Security and Medicare, so you keep about {usd(relocKept)} before any
+            state tax. Type your amount into the calculator above and pick your state to see the exact number.
+          </p>
+          <p>
+            Some employers &quot;gross up&quot; a relocation bonus, meaning they pay extra so the amount
+            after withholding matches what they promised. To land {usd(reloc)} after the {flatPct}%,
+            they would need to pay about {usd(grossUp)} (more if your state taxes it). If your offer letter
+            doesn&apos;t say whether the number is grossed up, ask HR before you sign.
+          </p>
+          <h2>Signing bonus and commission tax</h2>
+          <p>
+            Signing bonuses, retention bonuses and commissions are all supplemental wages too, so the
+            same {sw.rate * 100}% federal rate applies when they&apos;re paid separately. The calculator
+            works for any of them: enter the amount, pick how it&apos;s paid, and see what you keep.
           </p>
           <h2>Withholding isn&apos;t the final tax</h2>
           <p>

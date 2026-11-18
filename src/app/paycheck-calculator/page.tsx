@@ -13,7 +13,7 @@ const OTHER_STATE: StateConfig = {
 };
 
 export const metadata: Metadata = {
-  title: "Paycheck Calculator 2026 — Your Real Take-Home Pay",
+  title: "Paycheck Calculator 2026 — Take-Home Pay After Taxes",
   description:
     "Free US paycheck calculator for 2026. Enter your salary to see federal income tax, Social Security and Medicare taken out — and the take-home pay you actually keep.",
   alternates: { canonical: "/paycheck-calculator/" },
@@ -47,7 +47,7 @@ export default function PaycheckHub() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="wrap">
         <div style={{ paddingTop: 40 }}>
-          <h1>What you earn, minus what they take.</h1>
+          <h1>Paycheck calculator {federal.taxYear}: your take-home pay after taxes.</h1>
           <p className="lede" style={{ color: "var(--slate)", maxWidth: "60ch" }}>
             Pick your state, type your pay, and watch the split. No signup — just the math
             behind your take-home.
